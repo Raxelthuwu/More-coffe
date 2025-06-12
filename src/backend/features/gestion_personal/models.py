@@ -15,7 +15,7 @@ class Roles(models.Model):
 
 class Empleados(models.Model):
     id_empleado = models.AutoField(primary_key=True)
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True) 
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, db_column='usuario_id')
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
     telefono = models.CharField(unique=True, max_length=25)
