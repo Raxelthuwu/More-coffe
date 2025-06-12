@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Estado del Pedido{% endblock %}
+{% block content %}
+<h2>Estado del Pedido</h2>
+<p>Estado: {{ pedido.estado }}</p>
+<h3>Detalles:</h3>
+<ul>
+    {% for d in detalles %}
+        <li>{{ d.cantidad }} x {{ d.id_producto_menu.nombre }} - ${{ d.precio_unitario_venta }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

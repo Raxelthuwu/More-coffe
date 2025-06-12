@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Pedidos en Cocina{% endblock %}
+{% block content %}
+<h2>Pedidos para Preparar</h2>
+<ul>
+    {% for pedido in pedidos %}
+        <li>
+            Pedido #{{ pedido.id_pedido }} - Mesa {{ pedido.id_mesa.numero_mesa }} - Estado: {{ pedido.estado }}<br>
+            <a href="{% url 'preparar_pedido' pedido.id_pedido %}">Preparar</a> |
+            <a href="{% url 'marcar_preparado' pedido.id_pedido %}">Marcar como preparado</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

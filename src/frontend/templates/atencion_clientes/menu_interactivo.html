@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Menú{% endblock %}
+{% block content %}
+<h2>Menú</h2>
+<form method="post">{% csrf_token %}
+    {% for producto in productos %}
+        <div>
+            <h3>{{ producto.nombre }} - ${{ producto.precio }}</h3>
+            <p>{{ producto.descripcion }}</p>
+            <label for="producto_{{ producto.id_producto_menu }}">Cantidad:</label>
+            <input type="number" id="producto_{{ producto.id_producto_menu }}" name="producto_{{ producto.id_producto_menu }}" value="0" min="0">
+        </div>
+    {% endfor %}
+    <button type="submit">Enviar pedido</button>
+</form>
+{% endblock %}

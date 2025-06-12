@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Mesas Nuevas{% endblock %}
+{% block content %}
+<h2>Clientes recién llegados</h2>
+<ul>
+    {% for pedido in pedidos %}
+        <li>
+            Mesa {{ pedido.id_mesa.numero_mesa }} - 
+            <a href="{% url 'tomar_mesa' pedido.id_pedido %}">Atender</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
