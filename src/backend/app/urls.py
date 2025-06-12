@@ -22,5 +22,6 @@ urlpatterns = [
     path("",include("atencion_clientes.urls")),
     path("",include("gestion_dinero.urls")),
     path("",include("gestion_inventario.urls")),
-    path("",include("gestion_personal.urls"))
+    path("",include("gestion_personal.urls")),
+    path("",include("common.urls"))
 ]
