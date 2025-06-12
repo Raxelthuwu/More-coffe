@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Menú{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'styles_menu.css' %}">
+{% endblock %}
+
 {% block content %}
 <h2>Menú</h2>
 <form method="post">{% csrf_token %}

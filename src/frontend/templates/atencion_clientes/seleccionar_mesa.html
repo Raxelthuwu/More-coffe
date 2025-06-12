@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Seleccionar Mesa{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+{% endblock %}
+
 {% block content %}
 <h2>Selecciona tu mesa</h2>
 <form method="post">{% csrf_token %}
