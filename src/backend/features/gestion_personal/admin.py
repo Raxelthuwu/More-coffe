@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import Roles, Empleados, Turnos
 
-# Register your models here.
+admin.site.register(Roles)
+admin.site.register(Empleados)
+admin.site.register(Turnos)
