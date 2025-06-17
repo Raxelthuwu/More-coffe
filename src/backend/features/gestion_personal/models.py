@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User  
+from django.contrib.auth.models import User
+
 
 class Roles(models.Model):
     id_rol = models.AutoField(primary_key=True)
@@ -15,20 +16,22 @@ class Roles(models.Model):
 
 class Empleados(models.Model):
     id_empleado = models.AutoField(primary_key=True)
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, db_column='usuario_id')
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
     telefono = models.CharField(unique=True, max_length=25)
     correo = models.CharField(unique=True, max_length=100)
     id_rol = models.ForeignKey(Roles, models.DO_NOTHING, db_column='id_rol')
-    contrasena_hash = models.CharField(max_length=255)  
+    contrasena_hash = models.CharField(max_length=255)
+    
+    # Este campo se puede mantener si se añadió manualmente a la BD (verificado por ti)
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, db_column='usuario_id')
 
     class Meta:
         managed = False
         db_table = 'empleados'
 
     def __str__(self):
-        return f"{self.nombre} {self.apellido} - {self.id_rol}"
+        return f"{self.nombre} {self.apellido} - {self.id_rol.nombre_rol}"
 
 
 class Turnos(models.Model):

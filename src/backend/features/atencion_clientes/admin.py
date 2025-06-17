@@ -3,7 +3,7 @@ from .models import Mesas, ProductosMenu, Pedidos, DetallesPedido
 
 @admin.register(Mesas)
 class MesasAdmin(admin.ModelAdmin):
-    list_display = ('numero_mesa', 'capacidad')
+    list_display = ('id_mesa', 'capacidad')
 
 @admin.register(ProductosMenu)
 class ProductosMenuAdmin(admin.ModelAdmin):
@@ -12,7 +12,9 @@ class ProductosMenuAdmin(admin.ModelAdmin):
 
 @admin.register(Pedidos)
 class PedidosAdmin(admin.ModelAdmin):
-    list_display = ('id_mesa', 'id_empleado_mesero', 'fecha_hora_creacion', 'estado')
+    list_display = ('id_pedido', 'id_mesa', 'id_empleado_mesero', 'fecha_hora_creacion', 'estado')
+    list_filter = ('estado',)
+    search_fields = ('id_pedido',)
 
 @admin.register(DetallesPedido)
 class DetallesPedidoAdmin(admin.ModelAdmin):

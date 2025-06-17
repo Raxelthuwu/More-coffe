@@ -1,5 +1,7 @@
 from django.db import models
 from gestion_personal.models import Empleados
+from atencion_clientes.models import Pedidos
+
 
 class Proveedores(models.Model):
     id_proveedor = models.AutoField(primary_key=True)
@@ -48,10 +50,10 @@ class MovimientosInventario(models.Model):
     id_movimiento = models.AutoField(primary_key=True)
     id_producto_inv = models.ForeignKey(ProductosInventario, models.DO_NOTHING, db_column='id_producto_inv')
     id_empleado = models.ForeignKey(Empleados, models.DO_NOTHING, db_column='id_empleado')
-    id_pedido = models.ForeignKey('atencion_clientes.Pedidos', models.DO_NOTHING, db_column='id_pedido', blank=True, null=True)
+    id_pedido = models.ForeignKey(Pedidos, models.DO_NOTHING, db_column='id_pedido', blank=True, null=True)
     id_unidad = models.ForeignKey(UnidadesMedida, models.DO_NOTHING, db_column='id_unidad')
     fecha_hora = models.DateTimeField()
-    tipo_movimiento = models.CharField(max_length=10)  # Ejemplo: "entrada", "salida"
+    tipo_movimiento = models.CharField(max_length=10)  # valores posibles: 'entrada' o 'salida'
     cantidad = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:

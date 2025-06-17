@@ -1,10 +1,9 @@
 from django.db import models
-from gestion_personal.models import Empleados 
+from gestion_personal.models import Empleados
 
 
 class Mesas(models.Model):
     id_mesa = models.AutoField(primary_key=True)
-    numero_mesa = models.CharField(unique=True, max_length=3)
     capacidad = models.IntegerField()
 
     class Meta:
@@ -12,7 +11,7 @@ class Mesas(models.Model):
         db_table = 'mesas'
 
     def __str__(self):
-        return f"Mesa {self.numero_mesa}"
+        return f"Mesa {self.id_mesa}"
 
 
 class ProductosMenu(models.Model):
@@ -36,7 +35,7 @@ class Pedidos(models.Model):
     id_mesa = models.ForeignKey(Mesas, models.DO_NOTHING, db_column='id_mesa')
     id_empleado_mesero = models.ForeignKey(Empleados, models.DO_NOTHING, db_column='id_empleado_mesero')
     fecha_hora_creacion = models.DateTimeField()
-    estado = models.CharField(max_length=20)  
+    estado = models.CharField(max_length=20)
     comentarios = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -44,7 +43,7 @@ class Pedidos(models.Model):
         db_table = 'pedidos'
 
     def __str__(self):
-        return f"Pedido #{self.id_pedido} - Mesa {self.id_mesa.numero_mesa}"
+        return f"Pedido #{self.id_pedido} - Mesa {self.id_mesa.id_mesa}"
 
 
 class DetallesPedido(models.Model):
