@@ -8,7 +8,7 @@ from logic.models import Empleados
 class LoginView(View):
     def get(self, request):
         # Diego aquí se llama al HTML de login con formulario (email, contraseña)
-        return render(request, 'empleado/login.html')
+        return render(request, 'login/login.html')
 
     def post(self, request):
         email = request.POST.get('email')
@@ -26,13 +26,13 @@ class LoginView(View):
             rol = empleado.id_rol.nombre_rol.lower()
 
             if rol == 'mesero':
-                return redirect('vista_mesero')  # donde dice esto aqui pone la ruta del HTML, sisa?, si no me pregunta
+                return redirect('mesero/mesero.html')  # donde dice esto aqui pone la ruta del HTML, sisa?, si no me pregunta
             elif rol == 'cocinero':
-                return redirect('vista_cocinero')
+                return redirect('cocina/cocina.html')
             elif rol == 'cajero':
-                return redirect('vista_cajero')
+                return redirect('cajero/cajero.html')
             elif rol == 'administrador':
-                return redirect('vista_administrador')
+                return redirect('admin/administrador.html')
             else:
                 messages.error(request, "Rol no reconocido.")
                 return redirect('login')

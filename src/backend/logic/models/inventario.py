@@ -1,6 +1,6 @@
 from django.db import models
 from .empleados import Empleados
-from .pedidos import Pedidos  # Asegúrate de que este archivo exista en models/pedidos.py
+from .atencion import Pedidos  # Asegúrate de que este archivo exista en models/pedidos.py
 
 
 class Proveedores(models.Model):
