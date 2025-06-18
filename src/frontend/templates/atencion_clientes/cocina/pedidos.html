@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Pedidos en cocina</h2>
+
+    {% for pedido in pedidos %}
+        <div class="card my-3 p-3">
+            <strong>Mesa #{{ pedido.id_mesa.id_mesa }}</strong> | Estado: {{ pedido.get_estado_display }}
+
+            {% if pedido.estado == 'enviado_cocina' %}
+                <form method="post" action="{% url 'preparar_pedido' pedido.id_pedido %}">
+                    {% csrf_token %}
+                    <button class="btn btn-warning mt-2">Preparar</button>
+                </form>
+            {% elif pedido.estado == 'en_preparacion' %}
+                <form method="post" action="{% url 'pedido_listo' pedido.id_pedido %}">
+                    {% csrf_token %}
+                    <button class="btn btn-success mt-2">Listo</button>
+                </form>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>No hay pedidos en la cocina.</p>
+    {% endfor %}
+</div>
+{% endblock %}

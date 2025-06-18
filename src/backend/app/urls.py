@@ -1,27 +1,19 @@
-"""
-URL configuration for backend project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
+from features.atencion_clientes.views.clientes import SeleccionarMesaView
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("",include("atencion_clientes.urls")),
-    path("",include("gestion_dinero.urls")),
-    path("",include("gestion_inventario.urls")),
-    path("",include("gestion_personal.urls")),
-    path("",include("common.urls"))
+
+
+    path('', SeleccionarMesaView.as_view(), name='home'),
+
+    
+    path('', include("features.atencion_clientes.urls")),
+    path('dinero/', include("features.gestion_dinero.urls")),
+    path('inventario/', include("features.gestion_inventario.urls")),
+    path('personal/', include("features.gestion_personal.urls")),
+    path('common/', include("features.common.urls")),
 ]
+

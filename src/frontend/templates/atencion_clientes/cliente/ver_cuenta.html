@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Cuenta del Pedido{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <h2>Cuenta - Mesa {{ pedido.id_mesa }}</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detalle in detalles %}
+            <tr>
+                <td>{{ detalle.producto }}</td>
+                <td>{{ detalle.cantidad }}</td>
+                <td>${{ detalle.precio_unitario }}</td>
+                <td>${{ detalle.subtotal }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Total: ${{ total }}</h3>
+
+    <p>Tu pedido está en proceso. Espera a que un mesero te cobre para liberar la mesa.</p>
+</div>
+{% endblock %}

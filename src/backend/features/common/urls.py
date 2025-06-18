@@ -2,5 +2,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("",views.common,name="common")
+    path('limpiar-mesas/', views.limpiar_mesas, name='limpiar_mesas'), 
 ]

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Pedidos Asignados{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <h2>Mis Pedidos Asignados</h2>
+
+    {% if pedidos %}
+        <ul>
+        {% for pedido in pedidos %}
+            <li style="margin-bottom: 15px;">
+                <strong>Mesa:</strong> {{ pedido.id_mesa.id_mesa }} |
+                <strong>Estado:</strong> {{ pedido.get_estado_display }} |
+                <strong>Hora:</strong> {{ pedido.fecha_hora_creacion }}
+
+                {% if pedido.estado == 'listo' %}
+                    <form method="post" action="{% url 'entregar_pedido' pedido.id_pedido %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-submit">Entregar</button>
+                    </form>
+                {% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tienes pedidos asignados actualmente.</p>
+    {% endif %}
+
+    <a href="{% url 'notificaciones_mesero' %}" class="btn-cancel">Ver notificaciones</a>
+</div>
+{% endblock %}

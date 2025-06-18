@@ -3,19 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Cafetería Pamplona{% endblock %}</title>
-    <link rel="stylesheet" href="/static/styles.css">
-    {% block css %}{% endblock %}
+    <meta name="description" content="Sistema de Gestión para Restaurantes">
+    <title>{% block title %}Sistema Restaurante{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <header>
-        <h1>Cafetería Pamplona</h1>
+    <!-- Barra de navegación superior -->
+    <header class="main-header">
+        <div class="header-container">
+            <h1 class="logo">
+                <i class="fas fa-utensils"></i> Sistema Restaurante
+            </h1>
+            
+            {% if user.is_authenticated %}
+            <nav class="user-nav">
+                <span class="welcome-msg">
+                    <i class="fas fa-user-circle"></i> Hola, {{ user.username }}
+                </span>
+                <a href="{% url 'logout' %}" class="btn-logout" aria-label="Cerrar sesión">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </a>
+            </nav>
+            {% endif %}
+        </div>
     </header>
-    <main>
-        {% block content %}{% endblock %}
+
+    <!-- Contenedor principal -->
+    <main class="main-content">
+        <!-- Mensajes del sistema -->
+        {% if messages %}
+        <div class="message-container">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                <i class="fas 
+                    {% if message.tags == 'success' %}fa-check-circle
+                    {% elif message.tags == 'error' %}fa-exclamation-circle
+                    {% else %}fa-info-circle{% endif %}">
+                </i>
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Bloque de contenido -->
+        <div class="content-container">
+            {% block content %}{% endblock %}
+        </div>
     </main>
-    <footer>
-        <p>&copy; 2025 Cafetería Pamplona</p>
+
+    <!-- Pie de página -->
+    <footer class="main-footer">
+        <p>&copy; {% now "Y" %} Sistema Restaurante. Todos los derechos reservados.</p>
     </footer>
 </body>
 </html>

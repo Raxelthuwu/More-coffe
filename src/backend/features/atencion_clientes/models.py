@@ -30,12 +30,29 @@ class ProductosMenu(models.Model):
         return f"{self.nombre} - ${self.precio}"
 
 
+
 class Pedidos(models.Model):
+    ESTADOS = [
+        ('nuevo', 'Nuevo'),
+        ('asignado_mesero', 'Asignado a Mesero'),
+        ('enviado_cocina', 'Enviado a Cocina'),
+        ('en_preparacion', 'En Preparación'),
+        ('entregado', 'Entregado'),
+        ('listo', 'listo'),
+        ('pagado', 'Pagado'),
+    ]
+        
     id_pedido = models.AutoField(primary_key=True)
     id_mesa = models.ForeignKey(Mesas, models.DO_NOTHING, db_column='id_mesa')
-    id_empleado_mesero = models.ForeignKey(Empleados, models.DO_NOTHING, db_column='id_empleado_mesero')
+    id_empleado_mesero = models.ForeignKey(
+        Empleados,
+        models.DO_NOTHING,
+        db_column='id_empleado_mesero',
+        null=True,          
+        blank=True         
+    )
     fecha_hora_creacion = models.DateTimeField()
-    estado = models.CharField(max_length=20)
+    estado = estado = models.CharField(max_length=20, choices=ESTADOS, default='nuevo')
     comentarios = models.TextField(blank=True, null=True)
 
     class Meta:
