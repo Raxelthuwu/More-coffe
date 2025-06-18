@@ -1,8 +1,3 @@
 from django.contrib import admin
 
-
-urlpatterns = [
-
-
-]
-
+# Register your models here.

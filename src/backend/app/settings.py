@@ -21,13 +21,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'features.atencion_clientes',
-    'features.gestion_personal',
-    'features.gestion_dinero',
-    'features.gestion_inventario',
-    'features.common',
-
+    
+    'logic',
 ]
 
 MIDDLEWARE = [
@@ -95,5 +90,5 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/login/'
+#LOGIN_REDIRECT_URL = '/'
+#LOGOUT_REDIRECT_URL = '/login/'
