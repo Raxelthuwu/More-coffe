@@ -24,6 +24,31 @@ from logic.views.cocinero import (
     RegistrarPreparacionView,
 )
 
+from logic.views.inventario import (
+    VerInventarioView, 
+    FormularioMovimientoView,
+    )
+
+
+from logic.views.administrador import (
+    VerHistorialMovimientosView,
+    CrearProductoInventarioView,
+    EditarProductoInventarioView,
+    EliminarProductoInventarioView,
+    ListarEmpleadosView,
+    CrearEmpleadoView,
+    EditarEmpleadoView,
+    EliminarEmpleadoView,
+    ListarProveedoresView,
+    CrearProveedorView,
+    EditarProveedorView,
+    EliminarProveedorView,
+)
+
+
+
+
+
 urlpatterns = [ 
 
     path('login/', LoginView.as_view(), name='login'),
@@ -54,4 +79,26 @@ urlpatterns = [
 
 
 
+    # rutas de inventario
+    path('inventario/', VerInventarioView.as_view(), name='ver_inventario'),
+    path('inventario/movimiento/<int:producto_id>/', FormularioMovimientoView.as_view(), name='formulario_movimiento'),
+
+
+
+    # rutas de administrador
+    path('inventario/historial/', VerHistorialMovimientosView.as_view(), name='historial_movimientos'),
+    path('inventario/crear/', CrearProductoInventarioView.as_view(), name='crear_producto_inventario'),
+    path('inventario/editar/<int:producto_id>/', EditarProductoInventarioView.as_view(), name='editar_producto_inventario'),
+    path('inventario/eliminar/<int:producto_id>/', EliminarProductoInventarioView.as_view(), name='eliminar_producto_inventario'),
+    path('empleados/', ListarEmpleadosView.as_view(), name='listar_empleados'),
+    path('empleados/crear/', CrearEmpleadoView.as_view(), name='crear_empleado'),
+    path('empleados/editar/<int:empleado_id>/', EditarEmpleadoView.as_view(), name='editar_empleado'),
+    path('empleados/eliminar/<int:empleado_id>/', EliminarEmpleadoView.as_view(), name='eliminar_empleado'),
+    path('proveedores/', ListarProveedoresView.as_view(), name='listar_proveedores'),
+    path('proveedores/crear/', CrearProveedorView.as_view(), name='crear_proveedor'),
+    path('proveedores/editar/<int:proveedor_id>/', EditarProveedorView.as_view(), name='editar_proveedor'),
+    path('proveedores/eliminar/<int:proveedor_id>/', EliminarProveedorView.as_view(), name='eliminar_proveedor'),
 ]
+
+
+
