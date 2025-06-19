@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
- 
+
 
 class Roles(models.Model):
     id_rol = models.AutoField(primary_key=True)

@@ -30,7 +30,7 @@ class DjangoAdminLog(models.Model):
     )
     
     user = models.ForeignKey(
-        User, 
+        User,  # o Empleados si el admin es del sistema, pero Django usa auth.User
         models.DO_NOTHING
     )
 

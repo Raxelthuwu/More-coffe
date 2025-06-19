@@ -1,6 +1,6 @@
 from django.db import models
 from .empleados import Empleados
- 
+
 
 
 class MetodoPagos(models.Model):
