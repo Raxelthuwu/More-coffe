@@ -1,6 +1,6 @@
 from django.db import models
 from .empleados import Empleados
-from .pedidos import Pedidos  # Asegúrate de que este archivo exista en models/pedidos.py
+from .atencion import Pedidos  
 
 
 class Proveedores(models.Model):
@@ -53,7 +53,7 @@ class MovimientosInventario(models.Model):
     id_pedido = models.ForeignKey(Pedidos, models.DO_NOTHING, db_column='id_pedido', blank=True, null=True)
     id_unidad = models.ForeignKey(UnidadesMedida, models.DO_NOTHING, db_column='id_unidad')
     fecha_hora = models.DateTimeField()
-    tipo_movimiento = models.CharField(max_length=10)  # valores: 'entrada' o 'salida'
+    tipo_movimiento = models.CharField(max_length=10)  #
     cantidad = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:

@@ -1,6 +1,6 @@
 from django.db import models
 from .empleados import Empleados
-from .atencion import Pedidos  
+ 
 
 
 class MetodoPagos(models.Model):
@@ -41,13 +41,24 @@ class CierresCaja(models.Model):
 
 class Pagos(models.Model):
     id_pago = models.AutoField(primary_key=True)
-    id_pedido = models.ForeignKey(Pedidos, models.DO_NOTHING, db_column='id_pedido')
-    id_empleado_cajero = models.ForeignKey(Empleados, models.DO_NOTHING, db_column='id_empleado_cajero')
+    id_empleado_cajero = models.ForeignKey(
+        'Empleados',
+        on_delete=models.DO_NOTHING,
+        db_column='id_empleado_cajero'
+    )
     monto = models.DecimalField(max_digits=10, decimal_places=2)
-    propina = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    id_metodo_pago = models.ForeignKey(MetodoPagos, models.DO_NOTHING, db_column='id_metodo_pago')
+    propina = models.DecimalField(max_digits=10, decimal_places=2)
+    id_metodo_pago = models.ForeignKey(
+        'MetodoPagos',
+        on_delete=models.DO_NOTHING,
+        db_column='id_metodo_pago'
+    )
     fecha_hora_pago = models.DateTimeField()
-
+    id_detalle_pedido = models.ForeignKey(
+        'DetallesPedido',
+        on_delete=models.DO_NOTHING,
+        db_column='id_detalle_pedido'
+    )
     class Meta:
         managed = False
         db_table = 'pagos'
