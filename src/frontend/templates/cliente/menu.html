@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Menú de Productos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            padding: 40px 0;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 700px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .producto {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding: 0.5rem 0;
+        }
+
+        .producto span {
+            flex: 1;
+        }
+
+        input[type="number"] {
+            width: 60px;
+            padding: 0.3rem;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            resize: vertical;
+        }
+
+        .botones {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+
+        button {
+            padding: 0.8rem;
+            border: none;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .confirmar {
+            background: #28a745;
+            color: white;
+        }
+
+        .cancelar {
+            background: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Menú</h1>
+
+        <!-- Cambiado el action aquí -->
+        <form method="POST" action="{% url 'enviar_pedido' %}">
+            {% csrf_token %}
+            {% for producto in productos %}
+                <div class="producto">
+                    <span>{{ producto.nombre }} - ${{ producto.precio }}</span>
+                    <input type="number" name="producto_{{ producto.id_producto_menu }}" min="0" value="0">
+                </div>
+            {% endfor %}
+
+            <label for="comentario">Comentario para el pedido (opcional):</label>
+            <textarea name="comentario" id="comentario" rows="3" placeholder="Ej: Sin azúcar, doble queso, etc."></textarea>
+
+            <div class="botones">
+                <button type="submit" class="confirmar">Pedir Orden</button>
+                <button type="submit" name="action" value="cancelar_mesa" class="cancelar">Cancelar Orden</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
