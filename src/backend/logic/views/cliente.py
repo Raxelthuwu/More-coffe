@@ -8,7 +8,7 @@ from logic.models import Mesas, ProductosMenu, Pedidos, DetallesPedido
 class SeleccionarMesaView(View):
     def get(self, request):
         mesas = Mesas.objects.all()
-        return render(request, 'aqui_va_su_html.html', {'mesas': mesas}) # ud ya sabe como es la vuelta
+        return render(request, 'cliente/cliente.html', {'mesas': mesas}) # ud ya sabe como es la vuelta
 
     def post(self, request):
         id_mesa = request.POST.get('mesa_id')
@@ -41,7 +41,7 @@ class MostrarMenuView(View):
             return redirect('seleccionar_mesa')
 
         productos = ProductosMenu.objects.all()
-        return render(request, 'aqui_va_su_html.html', {'productos': productos})
+        return render(request, 'cliente/menu.html', {'productos': productos})
 
 
 #envia el pedido al mesero, crea un nuevo pedido si no existe uno para la mesa seleccionada
@@ -132,7 +132,7 @@ class VerPedidoActualView(View):
             'detalles': detalles_info,
             'total': total
         }
-        return render(request, 'aqui_va_su_html.html', context)
+        return render(request, 'cliente/ver_cuenta.html', context)
 
 
 # la clase para cancelar un pedido completamente (ya creado pero no enviado al mesero)
@@ -158,7 +158,7 @@ class VolverAMenuView(View):
             return redirect('seleccionar_mesa')
 
         productos = ProductosMenu.objects.all()
-        return render(request, 'aqui_va_su_html.html', {'productos': productos})
+        return render(request, 'cliente/menu.html', {'productos': productos})
 
 
 
