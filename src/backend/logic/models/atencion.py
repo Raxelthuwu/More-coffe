@@ -1,6 +1,7 @@
 from django.db import models
 from logic.models.empleados import Empleados
 
+
 class Mesas(models.Model):
     id_mesa = models.AutoField(primary_key=True)
     capacidad = models.IntegerField()
@@ -29,6 +30,8 @@ class ProductosMenu(models.Model):
         return f"{self.nombre} - ${self.precio}"
 
 
+
+
 class Pedidos(models.Model):
     ESTADOS = [
         ('nuevo', 'Nuevo'),
@@ -36,7 +39,7 @@ class Pedidos(models.Model):
         ('enviado_cocina', 'Enviado a Cocina'),
         ('en_preparacion', 'En Preparación'),
         ('entregado', 'Entregado'),
-        ('listo', 'Listo'),
+        ('listo', 'listo'),
         ('pagado', 'Pagado'),
     ]
 
@@ -47,7 +50,16 @@ class Pedidos(models.Model):
         models.DO_NOTHING,
         db_column='id_empleado_mesero',
         null=True,
-        blank=True
+        blank=True,
+        related_name='pedidos_mesero'
+    )
+    id_empleado_cocinero = models.ForeignKey(
+        Empleados,
+        models.DO_NOTHING,
+        db_column='id_empleado_cocinero',
+        null=True,
+        blank=True,
+        related_name='pedidos_cocinero'
     )
     fecha_hora_creacion = models.DateTimeField()
     estado = models.CharField(max_length=20, choices=ESTADOS, default='nuevo')
@@ -59,7 +71,6 @@ class Pedidos(models.Model):
 
     def __str__(self):
         return f"Pedido #{self.id_pedido} - Mesa {self.id_mesa.id_mesa}"
-
 
 class DetallesPedido(models.Model):
     id_detalle_pedido = models.AutoField(primary_key=True)
