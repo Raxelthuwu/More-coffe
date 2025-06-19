@@ -45,7 +45,13 @@ from logic.views.administrador import (
     EliminarProveedorView,
 )
 
-
+from logic.views.cajero import (
+    VerPedidosCajeroView,
+    VerDetallePedidoCajeroView,
+    RegistrarPagoPedidoView,
+    AperturaCajaView, 
+    CierreCajaView,
+)
 
 
 
@@ -98,6 +104,17 @@ urlpatterns = [
     path('proveedores/crear/', CrearProveedorView.as_view(), name='crear_proveedor'),
     path('proveedores/editar/<int:proveedor_id>/', EditarProveedorView.as_view(), name='editar_proveedor'),
     path('proveedores/eliminar/<int:proveedor_id>/', EliminarProveedorView.as_view(), name='eliminar_proveedor'),
+
+
+
+    # rutas de cajero
+    path('cajero/pedidos/', VerPedidosCajeroView.as_view(), name='ver_pedidos_cajero'),
+    path('cajero/pedido/<int:pedido_id>/detalle/', VerDetallePedidoCajeroView.as_view(), name='ver_detalle_pedido_cajero'),
+    path('cajero/pedido/<int:pedido_id>/pagar/', RegistrarPagoPedidoView.as_view(), name='registrar_pago_pedido'),
+    path('cajero/caja/abrir/', AperturaCajaView.as_view(), name='apertura_caja'),
+    path('cajero/caja/cerrar/', CierreCajaView.as_view(), name='cierre_caja'),
+
+
 ]
 
 

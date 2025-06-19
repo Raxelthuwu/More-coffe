@@ -85,3 +85,7 @@ class DetallesPedido(models.Model):
 
     def __str__(self):
         return f"{self.cantidad} x {self.id_producto_menu.nombre} (Pedido #{self.id_pedido.id_pedido})"
+    
+    @property
+    def precio_total(self):
+        return self.cantidad * self.precio_unitario

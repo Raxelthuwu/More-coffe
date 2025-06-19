@@ -118,7 +118,7 @@ class VerPedidoActualView(View):
         detalles_info = []
         total = 0
         for d in detalles:
-            subtotal = d.cantidad * d.precio_unitario_venta
+            subtotal = d.precio_total
             detalles_info.append({
                 'producto': d.id_producto_menu.nombre,
                 'cantidad': d.cantidad,
