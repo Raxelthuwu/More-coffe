@@ -158,7 +158,7 @@ class VolverAMenuView(View):
             return redirect('seleccionar_mesa')
 
         productos = ProductosMenu.objects.all()
-        return render(request, 'aqui_va_su_html.html', {'productos': productos})
+        return render(request, 'cliente/menu.html', {'productos': productos})
 
 
 
