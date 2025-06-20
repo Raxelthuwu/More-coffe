@@ -88,4 +88,4 @@ class DetallesPedido(models.Model):
     
     @property
     def precio_total(self):
-        return self.cantidad * self.precio_unitario
+        return self.cantidad * self.precio_unitario_venta

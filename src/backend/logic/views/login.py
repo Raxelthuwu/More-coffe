@@ -26,9 +26,9 @@ class LoginView(View):
             rol = empleado.id_rol.nombre_rol.lower()
 
             if rol == 'mesero':
-                return redirect('mesero/mesero.html')  # donde dice esto aqui pone la ruta del HTML, sisa?, si no me pregunta
+                return redirect('notificaciones_mesero')  
             elif rol == 'cocinero':
-                return redirect('cocina/cocina.html')
+                return redirect('ver_pedidos_cocina')
             elif rol == 'cajero':
                 return redirect('cajero/cajero.html')
             elif rol == 'administrador':
@@ -42,6 +42,6 @@ class LoginView(View):
 
 
 class LogoutView(View):
-    def get(self, request):
+    def post(self, request):
         logout(request)
-        return redirect('Login')  # Redirige a la vista cliente por defecto lo mismo, el HTML de inicio del login 
+        return redirect('login')

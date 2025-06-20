@@ -8,8 +8,21 @@ from logic.models import Mesas, ProductosMenu, Pedidos, DetallesPedido
 class SeleccionarMesaView(View):
     def get(self, request):
         mesas = Mesas.objects.all()
-        return render(request, 'cliente/cliente.html', {'mesas': mesas}) # ud ya sabe como es la vuelta
 
+        # Prepara una lista de dicts para enviar al contexto
+        mesas_info = []
+        for mesa in mesas:
+            esta_ocupada = Pedidos.objects.filter(
+                id_mesa=mesa,
+                estado__in=['nuevo','asignado_mesero','enviado_cocina','en_preparacion']
+            ).exists()
+            mesas_info.append({
+                'obj': mesa,
+                'ocupada': esta_ocupada,
+            })
+
+        return render(request, 'cliente/cliente.html', {'mesas': mesas_info})
+# la clase para seleccionar una mesa
     def post(self, request):
         id_mesa = request.POST.get('mesa_id')
         try:
@@ -52,7 +65,7 @@ class EnviarPedidoView(View):
         if not mesa_id:
             return redirect('seleccionar_mesa')
 
-        # Diego si lee esto -> Si se presiona "cancelar mesa"
+        # Si se presiona "cancelar mesa"
         if request.POST.get('action') == 'cancelar_mesa':
             pedido_id = request.session.get('pedido_id')
             if pedido_id:
@@ -66,7 +79,7 @@ class EnviarPedidoView(View):
 
         mesa = get_object_or_404(Mesas, pk=mesa_id)
 
-        # Diego si lee esto -> Crear o reutilizar pedido
+        # Crear o reutilizar pedido
         pedido_id = request.session.get('pedido_id')
         if pedido_id:
             pedido = get_object_or_404(Pedidos, pk=pedido_id)
@@ -79,25 +92,36 @@ class EnviarPedidoView(View):
             )
             request.session['pedido_id'] = pedido.id_pedido
 
-        # Guardar comentario (pongalo en el formulario HTML)
+        # Guardar comentario
         comentario = request.POST.get('comentario')
         if comentario:
             pedido.comentarios = comentario
             pedido.save()
 
-
-
-        # Diego si lee esto -> Agregar productos al pedido
+        # Agregar productos al pedido
         for key, value in request.POST.items():
             if key.startswith("producto_") and value and int(value) > 0:
                 id_producto = int(key.split('_')[1])
                 producto = ProductosMenu.objects.get(pk=id_producto)
-                DetallesPedido.objects.create(
+                
+                # Intentamos obtener el detalle existente
+                detalle_existente = DetallesPedido.objects.filter(
                     id_pedido=pedido,
-                    id_producto_menu=producto,
-                    cantidad=int(value),
-                    precio_unitario_venta=producto.precio
-                )
+                    id_producto_menu=producto
+                ).first()
+
+                cantidad_nueva = int(value)
+
+                if detalle_existente:
+                    detalle_existente.cantidad += cantidad_nueva
+                    detalle_existente.save()
+                else:
+                    DetallesPedido.objects.create(
+                        id_pedido=pedido,
+                        id_producto_menu=producto,
+                        cantidad=cantidad_nueva,
+                        precio_unitario_venta=producto.precio
+                    )
 
         messages.success(request, f"Pedido actualizado para la mesa #{mesa.id_mesa}")
         return redirect('ver_cuenta')
@@ -136,6 +160,9 @@ class VerPedidoActualView(View):
 
 
 # la clase para cancelar un pedido completamente (ya creado pero no enviado al mesero)
+from django.contrib import messages
+from django.contrib.messages import get_messages
+
 class CancelarPedidoView(View):
     def post(self, request):
         pedido_id = request.session.get('pedido_id')
@@ -144,8 +171,15 @@ class CancelarPedidoView(View):
             if pedido.estado == 'nuevo':
                 pedido.delete()
                 messages.success(request, "Pedido cancelado correctamente.")
+                
         request.session.pop('pedido_id', None)
         request.session.pop('mesa_id', None)
+
+        # Limpiar otros mensajes anteriores para que no "arrastren".
+        storage = messages.get_messages(request)
+        for _ in storage:
+            pass  # Simplemente iteramos para limpiar la cola.
+
         return redirect('seleccionar_mesa')
 
 

@@ -20,7 +20,7 @@ class NotificacionesMesasView(LoginRequiredMixin, View):
         ).order_by('fecha_hora_creacion')
 
         # Aquí va el HTML que muestra las notificaciones para el mesero
-        return render(request, 'aqui_va_el_html_notificaciones_mesero.html', {
+        return render(request, 'mesero/notificaciones_mesero.html', {
             'pedidos': pedidos_nuevos,
             'pedidos_listos': pedidos_listos
         })
@@ -37,7 +37,7 @@ class DetallePedidoMeseroView(LoginRequiredMixin, View):
         puede_entregar = pedido.estado == 'listo' and pedido.id_empleado_mesero == mesero
 
         # Aquí va el HTML que muestra el detalle del pedido (pedido + productos + botones)
-        return render(request, 'aqui_va_el_html_detalle_pedido.html', {
+        return render(request, 'mesero/detalle_pedido_mesero.html', {
             'pedido': pedido,
             'detalles': detalles,
             'puede_tomar': puede_tomar,
@@ -70,7 +70,7 @@ class VerPedidosMeseroView(LoginRequiredMixin, View):
         ).exclude(estado='pagado')
 
         # Aquí va el HTML que muestra la lista de pedidos asignados al mesero
-        return render(request, 'aqui_va_el_html_pedidos_asignados.html', {
+        return render(request, 'mesero/ver_pedidos_mesero.html', {
             'pedidos': pedidos
         })
 

@@ -21,7 +21,7 @@ from logic.views.cocinero import (
     VerPedidosCocinaView,
     TomarPedidoCocinaView,
     VerDetallePreparacionView,
-    RegistrarPreparacionView,
+    FinalizarPedidoCocinaView
 )
 
 from logic.views.inventario import (
@@ -81,13 +81,13 @@ urlpatterns = [
     path('pedidos-cocina/', VerPedidosCocinaView.as_view(), name='ver_pedidos_cocina'),
     path('tomar-pedido-cocina/<int:pedido_id>/', TomarPedidoCocinaView.as_view(), name='tomar_pedido_cocina'),
     path('detalle-preparacion/<int:pedido_id>/', VerDetallePreparacionView.as_view(), name='ver_detalle_preparacion'),
-    path('registrar-preparacion/<int:pedido_id>/', RegistrarPreparacionView.as_view(), name='registrar_preparacion'),
-
+    path('finalizar-pedido-cocina/<int:pedido_id>/', FinalizarPedidoCocinaView.as_view(), name='finalizar_pedido_cocina'),
 
 
     # rutas de inventario
     path('inventario/', VerInventarioView.as_view(), name='ver_inventario'),
-    path('inventario/movimiento/<int:producto_id>/', FormularioMovimientoView.as_view(), name='formulario_movimiento'),
+    path('inventario/movimiento/<int:pedido_id>/', FormularioMovimientoView.as_view(), name='formulario_movimiento'),
+
 
 
 
