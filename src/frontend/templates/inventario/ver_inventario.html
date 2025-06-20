@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inventario de Productos</title>
+</head>
+<body>
+    <div>
+        <h1>Inventario de Productos</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Stock Actual</th>
+                    <th>Proveedor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.nombre }}</td>
+                    <td>{{ producto.stock_actual }}</td>
+                    <td>{{ producto.id_proveedor.nombre }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if empleado and empleado.id_rol.nombre_rol|lower == "cocinero" and pedido_id %}
+            <form method="get" action="{% url 'ver_detalle_preparacion' pedido_id %}">
+                <button type="submit">Volver al Detalle de Preparación</button>
+            </form>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registrar Movimiento de Inventario</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Registrar Movimiento para el Pedido #{{ pedido.id_pedido }}</h1>
+
+        <form method="POST" action="{% url 'formulario_movimiento' pedido.id_pedido %}">
+            {% csrf_token %}
+
+            <label for="producto">Producto:</label>
+            <select name="producto_id" id="producto" required>
+                {% for producto in productos_inventario %}
+                    <option value="{{ producto.id_producto_inv }}">
+                        {{ producto.nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+            <br><br>
+
+            <label for="cantidad">Cantidad:</label>
+            <label> 
+            <input type="number" name="cantidad" required min="0" step="0.01">
+            <br><br>
+
+            <label for="unidad">Unidad de Medida:</label>
+            <select name="unidad" required>
+                {% for unidad in unidades %}
+                    <option value="{{ unidad.id_unidad }}">
+                        {{ unidad.nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+            <br><br>
+            </label>
+            <input type="hidden" name="tipo_movimiento" value="salida">
+
+            <button type="submit">Registrar movimiento</button>
+        </form>
+
+        <hr>
+
+        <!-- Ahora regresa al detalle de preparación del pedido -->
+        <a href="{% url 'ver_detalle_preparacion' pedido.id_pedido %}">
+            Volver al Detalle de Preparación
+        </a>
+    </div>
+</body>
+</html>

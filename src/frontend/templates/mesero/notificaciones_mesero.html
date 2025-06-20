@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificaciones para el Mesero</title>
+</head>
+<body>
+    <h2>Notificaciones para el Mesero</h2>
+
+    <h3>Pedidos Nuevos</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Mesa</th>
+                <th>Fecha y hora</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidos %}
+                <tr>
+                    <td>{{ pedido.id_pedido }}</td>
+                    <td>{{ pedido.id_mesa.id_mesa }}</td>
+                    <td>{{ pedido.fecha_hora_creacion|date:"d-m-Y H:i" }}</td>
+                    <td>
+                        <form method="GET" action="{% url 'detalle_pedido_mesero' pedido.id_pedido %}">
+                            <button type="submit">Ver Detalle</button>
+                        </form>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="4">No hay pedidos nuevos</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Pedidos Listos para Entrega</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Mesa</th>
+                <th>Fecha y hora</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidos_listos %}
+                <tr>
+                    <td>{{ pedido.id_pedido }}</td>
+                    <td>{{ pedido.id_mesa.id_mesa }}</td>
+                    <td>{{ pedido.fecha_hora_creacion|date:"d-m-Y H:i" }}</td>
+                    <td>
+                        <form method="GET" action="{% url 'detalle_pedido_mesero' pedido.id_pedido %}">
+                            <button type="submit">Ver Detalle</button>
+                        </form>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="4">No hay pedidos listos para entregar</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <form method="GET" action="{% url 'ver_pedidos_mesero' %}">
+        {% csrf_token %}
+        <button type="submit">Ver Mis Pedidos Asignados</button>
+    </form>
+
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Cerrar Sesión</button>
+    </form>
+</body>
+</html>
+

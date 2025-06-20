@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Detalle de preparación</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Preparación del Pedido #{{ pedido.id_pedido }}</h1>
+
+        <h2>Detalles del pedido</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detalle in detalles %}
+                <tr>
+                    <td>{{ detalle.id_producto_menu.nombre }}</td>
+                    <td>{{ detalle.cantidad }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Gestión de inventario</h2>
+        <form method="GET" action="{% url 'formulario_movimiento' pedido.id_pedido %}">
+            <button type="submit">Registrar Movimiento de Inventario</button>
+        </form>
+
+        <hr>
+        <div>
+            <a href="{% url 'ver_pedidos_cocina' %}">Volver a Pedidos</a> |
+            <a href="{% url 'ver_inventario' %}?pedido_id={{ pedido.id_pedido }}">Ver Inventario</a>
+        </div>
+    </div>
+</body>
+</html>

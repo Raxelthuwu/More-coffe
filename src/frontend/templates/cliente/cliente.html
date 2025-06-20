@@ -2,77 +2,59 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seleccionar Mesa</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: sans-serif;
-            background-color: #f2f2f2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        .container {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            width: 300px;
-            text-align: center;
-        }
-
-        h2 {
-            margin-bottom: 1.5rem;
-        }
-
-        select, button {
-            width: 100%;
-            padding: 0.6rem;
-            margin-top: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .secondary {
-            background-color: #ccc;
-            margin-top: 1rem;
-        }
-
-        .error {
-            color: red;
-            margin-bottom: 1rem;
-        }
-    </style>
 </head>
+
 <body>
-    <div class="container">
-        <h2>Seleccione mesa</h2>
+    <h2>Seleccione una Mesa</h2>
 
-        {% if messages %}
-            <div class="error">
-                {% for message in messages %}
-                    <p>{{ message }}</p>
-                {% endfor %}
-            </div>
-        {% endif %}
+    {% if messages %}
+        <div>
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
 
-        <form method="POST">
-            {% csrf_token %}
-            <select name="mesa_id" required>
-                <option value="">-- Seleccione una mesa --</option>
-                {% for mesa in mesas %}
-                    <option value="{{ mesa.id_mesa }}">Mesa {{ mesa.id_mesa }}</option>
-                {% endfor %}
-            </select>
-            <button type="submit">Seleccionar</button>
-        </form>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Mesa</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in mesas %}
+                <tr>
+                    <td>{{ item.obj.id_mesa }}</td>
+                    <td>
+                        {% if item.ocupada %}
+                            Ocupada
+                        {% else %}
+                            Libre
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.ocupada %}
+                            No disponible
+                        {% else %}
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="mesa_id" value="{{ item.obj.id_mesa }}">
+                                <button type="submit">Seleccionar</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-        <form action="{% url 'login' %}">
-            <button type="submit" class="secondary">Ir al Login</button>
-        </form>
-    </div>
+    <h3>¿Eres un empleado?</h3>
+    <form method="GET" action="{% url 'login' %}">
+        <button type="submit">Ir al Login para Empleados</button>
+    </form>
 </body>
 </html>
