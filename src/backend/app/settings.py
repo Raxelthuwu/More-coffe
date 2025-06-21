@@ -12,7 +12,7 @@ print("SECRET_KEY:", os.getenv("SECRET_KEY"))
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['more-coffe.onrender.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
