@@ -4,32 +4,24 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from logic.models.inventario import ProductosInventario, MovimientosInventario, UnidadesMedida, Proveedores
-from logic.models.empleados import Empleados
+from logic.models.empleados import Empleados, Turnos
 from django.utils import timezone
 
+class InicioAdministradorView(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(request, 'administrador/inicio_administrador.html')
 
+# INVENTARIO
 class VerHistorialMovimientosView(LoginRequiredMixin, View):
     def get(self, request):
-        movimientos = MovimientosInventario.objects.select_related(
-            'id_producto_inv', 'id_empleado', 'id_unidad'
-        ).order_by('-fecha_hora')
-
-        # Aquí va el HTML para mostrar el historial de movimientos
-        return render(request, 'aqui_va_el_html_historial_movimientos.html', {
-            'movimientos': movimientos
-        })
-
+        movimientos = MovimientosInventario.objects.select_related('id_producto_inv', 'id_empleado', 'id_unidad').order_by('-fecha_hora')
+        return render(request, 'inventario/ver_historial_movimientos.html', {'movimientos': movimientos})
 
 class CrearProductoInventarioView(LoginRequiredMixin, View):
     def get(self, request):
         unidades = UnidadesMedida.objects.all()
-        proveedores = Proveedores.objects.all()
-
-        # Aquí va el HTML del formulario para crear producto
-        return render(request, 'aqui_va_el_html_crear_producto.html', {
-            'unidades': unidades,
-            'proveedores': proveedores
-        })
+        proveedores = Proveedores.objects.filter(activo=True)
+        return render(request, 'administrador/crear_producto.html', {'unidades': unidades, 'proveedores': proveedores})
 
     def post(self, request):
         nombre = request.POST.get('nombre')
@@ -39,7 +31,6 @@ class CrearProductoInventarioView(LoginRequiredMixin, View):
         stock_minimo = request.POST.get('stock_minimo')
         stock_maximo = request.POST.get('stock_maximo')
 
-        # Validación simple
         if not nombre or not stock_actual:
             messages.error(request, "Nombre y stock actual son obligatorios.")
             return redirect('crear_producto_inventario')
@@ -56,23 +47,15 @@ class CrearProductoInventarioView(LoginRequiredMixin, View):
         messages.success(request, "Producto creado correctamente.")
         return redirect('ver_inventario')
 
-
 class EditarProductoInventarioView(LoginRequiredMixin, View):
     def get(self, request, producto_id):
         producto = get_object_or_404(ProductosInventario, pk=producto_id)
         unidades = UnidadesMedida.objects.all()
-        proveedores = Proveedores.objects.all()
-
-        # HTML para editar producto
-        return render(request, 'aqui_va_el_html_editar_producto.html', {
-            'producto': producto,
-            'unidades': unidades,
-            'proveedores': proveedores
-        })
+        proveedores = Proveedores.objects.filter(activo=True)
+        return render(request, 'administrador/editar_producto.html', {'producto': producto, 'unidades': unidades, 'proveedores': proveedores})
 
     def post(self, request, producto_id):
         producto = get_object_or_404(ProductosInventario, pk=producto_id)
-
         producto.nombre = request.POST.get('nombre')
         producto.unidad_medida = request.POST.get('unidad_medida')
         producto.id_proveedor_id = request.POST.get('proveedor_id')
@@ -80,50 +63,74 @@ class EditarProductoInventarioView(LoginRequiredMixin, View):
         producto.stock_minimo = request.POST.get('stock_minimo')
         producto.stock_maximo = request.POST.get('stock_maximo')
         producto.save()
-
         messages.success(request, "Producto actualizado correctamente.")
         return redirect('ver_inventario')
-
 
 class EliminarProductoInventarioView(LoginRequiredMixin, View):
     def post(self, request, producto_id):
         producto = get_object_or_404(ProductosInventario, pk=producto_id)
-        producto.delete()
+        producto.activo = False
+        producto.save()
         messages.success(request, "Producto eliminado correctamente.")
         return redirect('ver_inventario')
 
-
-
+# EMPLEADOS
 class ListarEmpleadosView(LoginRequiredMixin, View):
     def get(self, request):
-        empleados = Empleados.objects.select_related('usuario').all()
-        # Aquí va el HTML que muestra la lista de empleados
-        return render(request, 'aqui_va_el_html_listar_empleados.html', {
-            'empleados': empleados
-        })
-
+        empleados = Empleados.objects.select_related('usuario').filter(activo=True)
+        return render(request, 'administrador/listar_empleados.html', {'empleados': empleados})
 
 class CrearEmpleadoView(LoginRequiredMixin, View):
     def get(self, request):
-        # Aquí va el HTML con el formulario para crear un nuevo empleado
-        return render(request, 'aqui_va_el_html_crear_empleado.html')
+        return render(request, 'administrador/crear_empleado.html')
 
     def post(self, request):
-        username = request.POST.get('username')
-        password = request.POST.get('password')
         nombre = request.POST.get('nombre')
-        rol = request.POST.get('rol')
+        apellido = request.POST.get('apellido')
+        correo = request.POST.get('correo')
+        telefono = request.POST.get('telefono')
+        password = request.POST.get('password')
+        id_rol = request.POST.get('id_rol')
 
-        if not username or not password or not nombre or not rol:
+        print(f"Datos recibidos: {nombre=}, {apellido=}, {correo=}, {telefono=}, {password=}, {id_rol=}")
+
+        if not all([nombre, apellido, correo, telefono, password, id_rol]):
             messages.error(request, "Todos los campos son obligatorios.")
             return redirect('crear_empleado')
 
-        if User.objects.filter(username=username).exists():
-            messages.error(request, "El nombre de usuario ya existe.")
+        if Empleados.objects.filter(correo=correo).exists() or User.objects.filter(email=correo).exists():
+            messages.error(request, "El correo ya está registrado.")
             return redirect('crear_empleado')
 
-        user = User.objects.create_user(username=username, password=password)
-        Empleados.objects.create(usuario=user, nombre=nombre, rol=rol)
+        if Empleados.objects.filter(telefono=telefono).exists():
+            messages.error(request, "El teléfono ya está registrado.")
+            return redirect('crear_empleado')
+
+        try:
+            user = User.objects.create_user(username=correo, email=correo, password=password)
+            print("Usuario creado correctamente:", user)
+        except Exception as e:
+            print("Error creando el usuario:", e)
+            messages.error(request, "Error al crear el usuario.")
+            return redirect('crear_empleado')
+
+        try:
+            empleado = Empleados.objects.create(
+                nombre=nombre,
+                apellido=apellido,
+                correo=correo,
+                telefono=telefono,
+                contrasena_hash=user.password,
+                id_rol_id=id_rol,
+                usuario=user,
+                activo=True
+            )
+            print("Empleado creado correctamente:", empleado)
+        except Exception as e:
+            user.delete()  
+            print("Error creando el empleado:", e)
+            messages.error(request, "Error al crear el empleado.")
+            return redirect('crear_empleado')
 
         messages.success(request, "Empleado creado exitosamente.")
         return redirect('listar_empleados')
@@ -132,80 +139,75 @@ class CrearEmpleadoView(LoginRequiredMixin, View):
 class EditarEmpleadoView(LoginRequiredMixin, View):
     def get(self, request, empleado_id):
         empleado = get_object_or_404(Empleados, pk=empleado_id)
-        # Aquí va el HTML para editar datos del empleado
-        return render(request, 'aqui_va_el_html_editar_empleado.html', {
-            'empleado': empleado
-        })
+        return render(request, 'administrador/editar_empleado.html', {'empleado': empleado})
 
     def post(self, request, empleado_id):
         empleado = get_object_or_404(Empleados, pk=empleado_id)
-
         empleado.nombre = request.POST.get('nombre')
-        empleado.rol = request.POST.get('rol')
+        empleado.id_rol_id = request.POST.get('rol')
         empleado.save()
-
         messages.success(request, "Empleado actualizado correctamente.")
         return redirect('listar_empleados')
-
 
 class EliminarEmpleadoView(LoginRequiredMixin, View):
     def post(self, request, empleado_id):
         empleado = get_object_or_404(Empleados, pk=empleado_id)
         user = empleado.usuario
-        empleado.delete()
-        user.delete()
+        empleado.activo = False
+        empleado.save()
+        if user:
+            user.is_active = False
+            user.save()
         messages.success(request, "Empleado eliminado correctamente.")
         return redirect('listar_empleados')
 
+# PROVEEDORES
 class ListarProveedoresView(LoginRequiredMixin, View):
     def get(self, request):
-        proveedores = Proveedores.objects.all()
-        # Aquí va el HTML que lista todos los proveedores
-        return render(request, 'aqui_va_el_html_listar_proveedores.html', {
-            'proveedores': proveedores
-        })
-
+        proveedores = Proveedores.objects.filter(activo=True)
+        return render(request, 'administrador/listar_proveedores.html', {'proveedores': proveedores})
 
 class CrearProveedorView(LoginRequiredMixin, View):
     def get(self, request):
-        # Aquí va el HTML que muestra el formulario para crear proveedor
-        return render(request, 'aqui_va_el_html_crear_proveedor.html')
+        return render(request, 'administrador/crear_proveedor.html')
 
     def post(self, request):
         nombre = request.POST.get('nombre')
-        contacto = request.POST.get('contacto')
+        telefono = request.POST.get('telefono')
+        correo = request.POST.get('correo')
 
-        if not nombre or not contacto:
-            messages.error(request, "Todos los campos son obligatorios.")
+        if not nombre or not telefono:
+            messages.error(request, "Nombre y teléfono son obligatorios.")
             return redirect('crear_proveedor')
 
-        Proveedores.objects.create(nombre=nombre, contacto=contacto)
+        Proveedores.objects.create(nombre=nombre, telefono=telefono, correo=correo)
         messages.success(request, "Proveedor creado correctamente.")
         return redirect('listar_proveedores')
-
 
 class EditarProveedorView(LoginRequiredMixin, View):
     def get(self, request, proveedor_id):
         proveedor = get_object_or_404(Proveedores, pk=proveedor_id)
-        # Aquí va el HTML que muestra el formulario para editar proveedor
-        return render(request, 'aqui_va_el_html_editar_proveedor.html', {
-            'proveedor': proveedor
-        })
+        return render(request, 'administrador/editar_proveedor.html', {'proveedor': proveedor})
 
     def post(self, request, proveedor_id):
         proveedor = get_object_or_404(Proveedores, pk=proveedor_id)
-
         proveedor.nombre = request.POST.get('nombre')
-        proveedor.contacto = request.POST.get('contacto')
+        proveedor.telefono = request.POST.get('telefono')
+        proveedor.correo = request.POST.get('correo')
         proveedor.save()
-
         messages.success(request, "Proveedor actualizado correctamente.")
         return redirect('listar_proveedores')
-
 
 class EliminarProveedorView(LoginRequiredMixin, View):
     def post(self, request, proveedor_id):
         proveedor = get_object_or_404(Proveedores, pk=proveedor_id)
-        proveedor.delete()
+        proveedor.activo = False
+        proveedor.save()
         messages.success(request, "Proveedor eliminado correctamente.")
         return redirect('listar_proveedores')
+
+# TURNOS
+class ListarTurnosView(LoginRequiredMixin, View):
+    def get(self, request):
+        turnos = Turnos.objects.select_related('id_empleado').order_by('-hora_entrada')
+        return render(request, 'administrador/listar_turnos.html', {'turnos': turnos})

@@ -1,5 +1,6 @@
 from django.urls import path
 from logic.views.login import *
+
 from logic.views.cliente import (
     SeleccionarMesaView,
     MostrarMenuView,
@@ -31,6 +32,7 @@ from logic.views.inventario import (
 
 
 from logic.views.administrador import (
+    InicioAdministradorView,
     VerHistorialMovimientosView,
     CrearProductoInventarioView,
     EditarProductoInventarioView,
@@ -43,6 +45,7 @@ from logic.views.administrador import (
     CrearProveedorView,
     EditarProveedorView,
     EliminarProveedorView,
+    ListarTurnosView,
 )
 
 from logic.views.cajero import (
@@ -57,6 +60,7 @@ from logic.views.cajero import (
 
 urlpatterns = [ 
 
+    # rutas de login
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
 
@@ -92,19 +96,30 @@ urlpatterns = [
 
 
 
-    # rutas de administrador
-    path('inventario/historial/', VerHistorialMovimientosView.as_view(), name='historial_movimientos'),
-    path('inventario/crear/', CrearProductoInventarioView.as_view(), name='crear_producto_inventario'),
-    path('inventario/editar/<int:producto_id>/', EditarProductoInventarioView.as_view(), name='editar_producto_inventario'),
-    path('inventario/eliminar/<int:producto_id>/', EliminarProductoInventarioView.as_view(), name='eliminar_producto_inventario'),
-    path('empleados/', ListarEmpleadosView.as_view(), name='listar_empleados'),
-    path('empleados/crear/', CrearEmpleadoView.as_view(), name='crear_empleado'),
-    path('empleados/editar/<int:empleado_id>/', EditarEmpleadoView.as_view(), name='editar_empleado'),
-    path('empleados/eliminar/<int:empleado_id>/', EliminarEmpleadoView.as_view(), name='eliminar_empleado'),
-    path('proveedores/', ListarProveedoresView.as_view(), name='listar_proveedores'),
-    path('proveedores/crear/', CrearProveedorView.as_view(), name='crear_proveedor'),
-    path('proveedores/editar/<int:proveedor_id>/', EditarProveedorView.as_view(), name='editar_proveedor'),
-    path('proveedores/eliminar/<int:proveedor_id>/', EliminarProveedorView.as_view(), name='eliminar_proveedor'),
+    # Dashboard principal del administrador
+    path('panel-administrador/', InicioAdministradorView.as_view(), name='inicio_administrador'),
+
+    # Inventario - Historial de movimientos
+    path('administrador/inventario/historial/', VerHistorialMovimientosView.as_view(), name='historial_movimientos'),
+
+    # Inventario - CRUD de productos
+    path('administrador/inventario/productos/crear/', CrearProductoInventarioView.as_view(), name='crear_producto_inventario'),
+    path('administrador/inventario/productos/editar/<int:producto_id>/', EditarProductoInventarioView.as_view(), name='editar_producto_inventario'),
+    path('administrador/inventario/productos/eliminar/<int:producto_id>/', EliminarProductoInventarioView.as_view(), name='eliminar_producto_inventario'),
+
+    # Empleados - CRUD
+    path('administrador/empleados/', ListarEmpleadosView.as_view(), name='listar_empleados'),
+    path('administrador/empleados/crear/', CrearEmpleadoView.as_view(), name='crear_empleado'),
+    path('administrador/empleados/editar/<int:empleado_id>/', EditarEmpleadoView.as_view(), name='editar_empleado'),
+    path('administrador/empleados/eliminar/<int:empleado_id>/', EliminarEmpleadoView.as_view(), name='eliminar_empleado'),
+
+    # Proveedores - CRUD
+    path('administrador/proveedores/', ListarProveedoresView.as_view(), name='listar_proveedores'),
+    path('administrador/proveedores/crear/', CrearProveedorView.as_view(), name='crear_proveedor'),
+    path('administrador/proveedores/editar/<int:proveedor_id>/', EditarProveedorView.as_view(), name='editar_proveedor'),
+    path('administrador/proveedores/eliminar/<int:proveedor_id>/', EliminarProveedorView.as_view(), name='eliminar_proveedor'),
+    # Turnos - CRUD
+    path('administrador/turnos/', ListarTurnosView.as_view(), name='listar_turnos'),
 
 
 

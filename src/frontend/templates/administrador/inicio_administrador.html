@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Panel de Administración</title>
+</head>
+<body>
+
+    <h1>Panel del Administrador</h1>
+
+    <!-- Botón para cerrar sesión -->
+    <form method="POST" action="{% url 'logout' %}" style="margin-bottom: 20px;">
+        {% csrf_token %}
+        <button type="submit">Cerrar Sesión</button>
+    </form>
+
+    <h2>Empleados</h2>
+    <ul>
+        <li><a href="{% url 'listar_empleados' %}">Ver</a></li>
+        <li><a href="{% url 'crear_empleado' %}">Crear</a></li>
+    </ul>
+
+    <h2>Inventario</h2>
+    <ul>
+        <li><a href="{% url 'ver_inventario' %}">Ver</a></li>
+        <li><a href="{% url 'crear_producto_inventario' %}">Crear</a></li>
+    </ul>
+
+    <h2>Proveedores</h2>
+    <ul>
+        <li><a href="{% url 'listar_proveedores' %}">Ver</a></li>
+        <li><a href="{% url 'crear_proveedor' %}">Crear</a></li>
+    </ul>
+
+    <h2>Historial de Movimientos</h2>
+    <ul>
+        <li><a href="{% url 'historial_movimientos' %}">Ver</a></li>
+    </ul>
+
+    <h2>Turnos</h2>
+    <ul>
+        <li><a href="{% url 'listar_turnos' %}">Ver</a></li>
+    </ul>
+
+</body>
+</html>

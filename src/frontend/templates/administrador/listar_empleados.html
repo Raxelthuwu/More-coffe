@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lista de Empleados</title>
+</head>
+<body>
+
+    <h1>Empleados</h1>
+
+    <!-- Enlace al dashboard del administrador -->
+    <a href="{% url 'inicio_administrador' %}">← Volver al Inicio del Administrador</a>
+    <br><br>
+
+    <a href="{% url 'crear_empleado' %}">Crear nuevo empleado</a>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for empleado in empleados %}
+                <tr>
+                    <td>{{ empleado.nombre }}</td>
+                    <td>{{ empleado.apellido }}</td>
+                    <td>{{ empleado.correo }}</td>
+                    <td>{{ empleado.telefono }}</td>
+                    <td>{{ empleado.id_rol.nombre_rol }}</td>
+                    <td>
+                        <a href="{% url 'editar_empleado' empleado.id_empleado %}">Editar</a>
+                        |
+                        <form action="{% url 'eliminar_empleado' empleado.id_empleado %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" onclick="return confirm('¿Deseas eliminar este empleado?');">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">No hay empleados registrados.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

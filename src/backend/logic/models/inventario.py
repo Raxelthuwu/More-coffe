@@ -8,6 +8,7 @@ class Proveedores(models.Model):
     nombre = models.CharField(unique=True, max_length=60)
     telefono = models.CharField(max_length=20)
     correo = models.CharField(max_length=80, blank=True, null=True)
+    activo = models.BooleanField(default=True)  # <-- campo agregado
 
     class Meta:
         managed = False
@@ -37,6 +38,7 @@ class ProductosInventario(models.Model):
     stock_actual = models.DecimalField(max_digits=10, decimal_places=1)
     stock_minimo = models.DecimalField(max_digits=10, decimal_places=1)
     stock_maximo = models.DecimalField(max_digits=10, decimal_places=1)
+    activo = models.BooleanField(default=True)  # <-- campo agregado
 
     class Meta:
         managed = False
@@ -53,7 +55,7 @@ class MovimientosInventario(models.Model):
     id_pedido = models.ForeignKey(Pedidos, models.DO_NOTHING, db_column='id_pedido', blank=True, null=True)
     id_unidad = models.ForeignKey(UnidadesMedida, models.DO_NOTHING, db_column='id_unidad')
     fecha_hora = models.DateTimeField()
-    tipo_movimiento = models.CharField(max_length=10)  #
+    tipo_movimiento = models.CharField(max_length=10)
     cantidad = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
