@@ -88,4 +88,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'frontend', 'static'),
 ]
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://more-coffe.onrender.com",
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
+]
