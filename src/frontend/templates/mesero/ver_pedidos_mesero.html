@@ -43,9 +43,5 @@
         {% csrf_token %}
         <button type="submit">Volver a Notificaciones</button>
     </form>
-    <form method="get" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Cerrar Sesión</button>
-    </form>
 </body>
 </html>

@@ -86,7 +86,8 @@ urlpatterns = [
 
     # rutas de inventario
     path('inventario/', VerInventarioView.as_view(), name='ver_inventario'),
-    path('inventario/movimiento/<int:pedido_id>/', FormularioMovimientoView.as_view(), name='formulario_movimiento'),
+    path('movimientos/', FormularioMovimientoView.as_view(), name='formulario_movimiento'),
+    path('movimientos/<int:pedido_id>/', FormularioMovimientoView.as_view(), name='formulario_movimiento_pedido'),
 
 
 

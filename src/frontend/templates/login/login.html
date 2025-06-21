@@ -3,27 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Login </title>
-<head>
+    <title>Iniciar Sesión</title>
+</head>
 <body>
-    <div class="login-container">
+    <div>
         <h2>Iniciar Sesión</h2>
 
         {% if messages %}
-            <div class="messages">
+            <div>
                 {% for message in messages %}
-                    <p>{{ message }}</p>
+                    <p><strong>{{ message }}</strong></p>
                 {% endfor %}
             </div>
         {% endif %}
 
         <form method="POST">
             {% csrf_token %}
-            <input type="email" name="email" placeholder="Correo electrónico" required>
-            <input type="password" name="password" placeholder="Contraseña" required>
+            <div>
+                <label>Correo electrónico: <input type="email" name="email" required></label>
+            </div>
+            <div>
+                <label>Contraseña: <input type="password" name="password" required> </label>       
+            </div>
             <button type="submit">Ingresar</button>
         </form>
-    </div>
 
+        <div>
+            <a href="{% url 'seleccionar_mesa' %}">
+                <button type="button">Continuar como Cliente</button>
+            </a>
+        </div>
+    </div>
 </body>
 </html>

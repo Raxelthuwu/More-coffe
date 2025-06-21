@@ -7,14 +7,13 @@ from logic.models.atencion import Pedidos, DetallesPedido
 from logic.models.pagos import MetodoPagos, Pagos
 from logic.models.empleados import Empleados
 from logic.models.pagos import CierresCaja
-
+from decimal import Decimal, InvalidOperation
 
 
 class VerPedidosCajeroView(LoginRequiredMixin, View):
     def get(self, request):
         pedidos = Pedidos.objects.filter(estado='entregado')  # Solo pedidos entregados
-        # HTML donde el cajero ve pedidos listos para pagar
-        return render(request, 'su HTML', {
+        return render(request, 'cajero/ver_pedidos_cajero.html', {  
             'pedidos': pedidos
         })
 
@@ -30,11 +29,14 @@ class VerDetallePedidoCajeroView(LoginRequiredMixin, View):
         detalles = DetallesPedido.objects.filter(id_pedido=pedido)
         metodos_pago = MetodoPagos.objects.all()
 
-        # HTML donde el cajero ve los detalles del pedido y puede elegir un método de pago
-        return render(request, 'Su HTML', {
+        # Calcula el total del pedido
+        total = sum(detalle.precio_total for detalle in detalles)
+
+        return render(request, 'cajero/ver_detalle_pedido_cajero.html', { 
             'pedido': pedido,
             'detalles': detalles,
-            'metodos_pago': metodos_pago
+            'metodos_pago': metodos_pago,
+            'total': total
         })
 
 
@@ -51,12 +53,11 @@ class RegistrarPagoPedidoView(LoginRequiredMixin, View):
         propina = request.POST.get('propina') or 0
 
         try:
-            propina = float(propina)
-        except ValueError:
+            propina = Decimal(propina)
+        except (InvalidOperation, TypeError):
             messages.error(request, "Propina inválida.")
             return redirect('ver_detalle_pedido_cajero', pedido_id=pedido.id_pedido)
 
-        # Calcular total del pedido
         detalles = DetallesPedido.objects.filter(id_pedido=pedido)
         total = sum(detalle.precio_total for detalle in detalles)
 
@@ -73,18 +74,17 @@ class RegistrarPagoPedidoView(LoginRequiredMixin, View):
         pedido.estado = 'pagado'
         pedido.save()
 
-        messages.success(request, "Pago registrado correctamente.")
+        messages.success(request, "Pago registrado correctamente. Total pagado: ${}".format(total))
         return redirect('ver_pedidos_cajero')
+
 
 class AperturaCajaView(LoginRequiredMixin, View):
     def get(self, request):
-        # Aquí va el HTML para formulario de apertura de caja
-        return render(request, 'aqui_va_el_html_apertura_caja.html')
+        return render(request, 'cajero/apertura_caja.html') 
 
     def post(self, request):
         empleado = Empleados.objects.get(usuario=request.user)
 
-        # Validar si ya hay una caja abierta sin cerrar
         caja_abierta = CierresCaja.objects.filter(
             id_empleado_apertura=empleado,
             fecha_cierre__isnull=True
@@ -109,13 +109,11 @@ class AperturaCajaView(LoginRequiredMixin, View):
 
         messages.success(request, "Caja abierta correctamente.")
         return redirect('ver_pedidos_cajero')
-    
+
 
 class CierreCajaView(LoginRequiredMixin, View):
     def get(self, request):
-        # HTML para formulario de cierre de caja
-        return render(request, 'aqui_va_el_html_cierre_caja.html')
-
+        return render(request, 'cajero/cierre_caja.html')  
     def post(self, request):
         empleado = Empleados.objects.get(usuario=request.user)
 
@@ -130,8 +128,8 @@ class CierreCajaView(LoginRequiredMixin, View):
 
         monto_final = request.POST.get('monto_final')
         try:
-            monto_final = float(monto_final)
-        except ValueError:
+            monto_final = Decimal(monto_final)
+        except (InvalidOperation, TypeError):
             messages.error(request, "Monto inválido.")
             return redirect('cierre_caja')
 
@@ -140,5 +138,8 @@ class CierreCajaView(LoginRequiredMixin, View):
         caja.id_empleado_cierre = empleado
         caja.save()
 
-        messages.success(request, "Caja cerrada correctamente.")
-        return redirect('ver_pedidos_cajero')
+        from django.contrib.auth import logout
+        logout(request)
+
+        messages.success(request, "Caja cerrada y sesión cerrada correctamente.")
+        return redirect('login')

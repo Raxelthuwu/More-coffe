@@ -1,8 +1,6 @@
 from django.db import models
 from .empleados import Empleados
 
-
-
 class MetodoPagos(models.Model):
     id_metodo_pago = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=40)
@@ -42,14 +40,14 @@ class CierresCaja(models.Model):
 class Pagos(models.Model):
     id_pago = models.AutoField(primary_key=True)
     id_empleado_cajero = models.ForeignKey(
-        'Empleados',
+        Empleados,
         on_delete=models.DO_NOTHING,
         db_column='id_empleado_cajero'
     )
     monto = models.DecimalField(max_digits=10, decimal_places=2)
     propina = models.DecimalField(max_digits=10, decimal_places=2)
     id_metodo_pago = models.ForeignKey(
-        'MetodoPagos',
+        MetodoPagos,
         on_delete=models.DO_NOTHING,
         db_column='id_metodo_pago'
     )
@@ -59,6 +57,7 @@ class Pagos(models.Model):
         on_delete=models.DO_NOTHING,
         db_column='id_detalle_pedido'
     )
+
     class Meta:
         managed = False
         db_table = 'pagos'

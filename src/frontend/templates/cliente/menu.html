@@ -11,16 +11,25 @@
 
         <form method="POST" action="{% url 'enviar_pedido' %}">
             {% csrf_token %}
+            
             {% for producto in productos %}
                 <div class="producto">
                     <label>
-                        {{ producto.nombre }} - ${{ producto.precio }}
+                        <strong>{{ producto.nombre }}</strong> - ${{ producto.precio }}
                         <input type="number" name="producto_{{ producto.id_producto_menu }}" min="0" value="0">
                     </label>
+                    <div>
+                        {% if producto.url_imagen %}
+                            <img src="{{ producto.url_imagen }}" alt="{{ producto.nombre }}" width="100">
+                        {% else %}
+                            <span>Sin imagen</span>
+                        {% endif %}
+                    </div>
                 </div>
+                <hr>
             {% endfor %}
 
-            <label for="comentario">Comentario para el pedido (opcional):</label>
+            <label for="comentario">Comentario para el pedido (opcional):</label><br>
             <textarea name="comentario" id="comentario" rows="3" placeholder="Ej: Sin azúcar, doble queso, etc."></textarea>
 
             <div class="botones">

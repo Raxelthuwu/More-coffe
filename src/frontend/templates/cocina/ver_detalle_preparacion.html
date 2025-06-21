@@ -10,10 +10,16 @@
         <h1>Preparación del Pedido #{{ pedido.id_pedido }}</h1>
 
         <h2>Detalles del pedido</h2>
+
+        {% if pedido.comentarios %}
+            <p><strong>Comentarios:</strong> {{ pedido.comentarios }}</p>
+        {% endif %}
+
         <table>
             <thead>
                 <tr>
                     <th>Producto</th>
+                    <th>Imagen</th>
                     <th>Cantidad</th>
                 </tr>
             </thead>
@@ -21,6 +27,13 @@
                 {% for detalle in detalles %}
                 <tr>
                     <td>{{ detalle.id_producto_menu.nombre }}</td>
+                    <td>
+                        {% if detalle.id_producto_menu.url_imagen %}
+                            <img src="{{ detalle.id_producto_menu.url_imagen }}" alt="{{ detalle.id_producto_menu.nombre }}" width="100">
+                        {% else %}
+                            <span>Sin imagen</span>
+                        {% endif %}
+                    </td>
                     <td>{{ detalle.cantidad }}</td>
                 </tr>
                 {% endfor %}
@@ -28,14 +41,15 @@
         </table>
 
         <h2>Gestión de inventario</h2>
-        <form method="GET" action="{% url 'formulario_movimiento' pedido.id_pedido %}">
+        <form method="GET" action="{% url 'formulario_movimiento_pedido' pedido.id_pedido %}">
             <button type="submit">Registrar Movimiento de Inventario</button>
         </form>
 
         <hr>
         <div>
-            <a href="{% url 'ver_pedidos_cocina' %}">Volver a Pedidos</a> |
-            <a href="{% url 'ver_inventario' %}?pedido_id={{ pedido.id_pedido }}">Ver Inventario</a>
+            <form method="GET" action="{% url 'ver_pedidos_cocina' %}">
+                <button type="submit">Volver a Pedidos</button>
+            </form>
         </div>
     </div>
 </body>

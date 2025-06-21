@@ -2,7 +2,7 @@ from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from logic.models.atencion import Pedidos, DetallesPedido
-from logic.models.inventario import MovimientosInventario, ProductosInventario, UnidadesMedida
+from logic.models.inventario import MovimientosInventario
 from logic.models.empleados import Empleados
 
 
@@ -10,7 +10,10 @@ class VerPedidosCocinaView(View):
     """Lista todos los pedidos para la cocina."""
     def get(self, request):
         pedidos = Pedidos.objects.filter(estado__in=['enviado_cocina', 'en_preparacion'])
-        return render(request, 'cocina/ver_pedidos_cocina.html', {'pedidos': pedidos})
+        return render(request, 'cocina/ver_pedidos_cocina.html', {
+            'pedidos': pedidos,
+            'es_cocinero': True,
+        })
 
 
 class TomarPedidoCocinaView(View):
@@ -49,14 +52,11 @@ class VerDetallePreparacionView(View):
             return redirect('ver_pedidos_cocina')
 
         detalles = DetallesPedido.objects.filter(id_pedido=pedido)
-        productos_inventario = ProductosInventario.objects.all()
-        unidades = UnidadesMedida.objects.all()
 
         return render(request, 'cocina/ver_detalle_preparacion.html', {
             'pedido': pedido,
             'detalles': detalles,
-            'productos_inventario': productos_inventario,
-            'unidades': unidades,
+            'es_cocinero': True,
         })
 
 

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Detalle del Pedido #{{ pedido.id_pedido }}</title>
+</head>
+<body>
+    <h1>Detalle del Pedido #{{ pedido.id_pedido }}</h1>
+
+    {% if messages %}
+    <div>
+        {% for message in messages %}
+            <p><strong>{{ message }}</strong></p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <table border="1" cellspacing="0" cellpadding="5">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detalle in detalles %}
+            <tr>
+                <td>{{ detalle.id_producto_menu.nombre }}</td>
+                <td>{{ detalle.cantidad }}</td>
+                <td>${{ detalle.precio_unitario_venta }}</td>
+                <td>${{ detalle.precio_total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><strong>Total del pedido:</strong> ${{ total }}</p>
+
+    <h2>Registrar Pago</h2>
+    <form method="POST" action="{% url 'registrar_pago_pedido' pedido.id_pedido %}">
+        {% csrf_token %}
+        <div>
+            <label for="metodo_pago">Método de Pago:</label>
+            <select name="metodo_pago" id="metodo_pago" required>
+                <option value="" disabled selected>Seleccione método</option>
+                {% for metodo in metodos_pago %}
+                    <option value="{{ metodo.id_metodo_pago }}">{{ metodo.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="propina">Propina:</label>
+            <input type="number" name="propina" id="propina" step="0.01" min="0" value="0">
+        </div>
+
+        <button type="submit">Registrar Pago</button>
+    </form>
+
+    <div>
+        <a href="{% url 'ver_pedidos_cajero' %}">
+            <button type="button">Volver a Pedidos</button>
+        </a>
+    </div>
+</body>
+</html>

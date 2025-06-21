@@ -8,6 +8,15 @@
 <body>
     <div>
         <h1>Inventario de Productos</h1>
+
+        {% if messages %}
+            <div>
+                {% for message in messages %}
+                    <p><strong>{{ message }}</strong></p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <table>
             <thead>
                 <tr>
@@ -18,20 +27,35 @@
             </thead>
             <tbody>
                 {% for producto in productos %}
-                <tr>
-                    <td>{{ producto.nombre }}</td>
-                    <td>{{ producto.stock_actual }}</td>
-                    <td>{{ producto.id_proveedor.nombre }}</td>
-                </tr>
+                    <tr>
+                        <td>{{ producto.nombre }}</td>
+                        <td>{{ producto.stock_actual }}</td>
+                        <td>{{ producto.id_proveedor.nombre }}</td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>
 
-        {% if empleado and empleado.id_rol.nombre_rol|lower == "cocinero" and pedido_id %}
-            <form method="get" action="{% url 'ver_detalle_preparacion' pedido_id %}">
-                <button type="submit">Volver al Detalle de Preparación</button>
-            </form>
-        {% endif %}
+        <div>
+            {% if es_cocinero %}
+                {% if pedido_id %}
+                    <form action="{% url 'formulario_movimiento_pedido' pedido_id %}" method="get" style="display: inline;">
+                        <button type="submit">Ir al Formulario de Movimiento</button>
+                    </form>
+                {% else %}
+                    <p><strong>No hay pedido activo para registrar movimiento.</strong></p>
+                {% endif %}
+            {% endif %}
+
+            {% if es_administrador %}
+                <form action="{% url 'formulario_movimiento' %}" method="get" style="display: inline;">
+                    <button type="submit">Ir al Formulario de Movimiento</button>
+                </form>
+                <form action="{% url 'inicio_administrador' %}" method="get" style="display: inline;">
+                    <button type="submit">Volver al Inicio</button>
+                </form>
+            {% endif %}
+        </div>
     </div>
 </body>
 </html>

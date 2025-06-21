@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from logic.models import Empleados
-
+from django.http import HttpResponseNotAllowed
 
 class LoginView(View):
     def get(self, request):
@@ -30,7 +30,7 @@ class LoginView(View):
             elif rol == 'cocinero':
                 return redirect('ver_pedidos_cocina')
             elif rol == 'cajero':
-                return redirect('cajero/cajero.html')
+                return redirect('apertura_caja')
             elif rol == 'administrador':
                 return redirect('admin/administrador.html')
             else:
@@ -41,7 +41,12 @@ class LoginView(View):
             return redirect('login')
 
 
+
+
 class LogoutView(View):
+    def get(self, request):
+        return HttpResponseNotAllowed(['POST'])
+
     def post(self, request):
         logout(request)
         return redirect('login')

@@ -3,51 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Registrar Movimiento de Inventario</title>
+    <title>Registrar Movimiento</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Registrar Movimiento para el Pedido #{{ pedido.id_pedido }}</h1>
+    <div>
+        {% if pedido %}
+            <h1>Registrar Movimiento - Pedido #{{ pedido.id_pedido }}</h1>
+        {% else %}
+            <h1>Registro de Movimiento de Inventario</h1>
+        {% endif %}
+        
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+                <p><strong>{{ message }}</strong></p>
+            {% endfor %}
+        </div>
+        {% endif %}
 
-        <form method="POST" action="{% url 'formulario_movimiento' pedido.id_pedido %}">
+        <form method="POST">
             {% csrf_token %}
+            <input type="hidden" name="origen" value="{{ origen }}">
 
-            <label for="producto">Producto:</label>
-            <select name="producto_id" id="producto" required>
-                {% for producto in productos_inventario %}
-                    <option value="{{ producto.id_producto_inv }}">
-                        {{ producto.nombre }}
-                    </option>
-                {% endfor %}
-            </select>
-            <br><br>
+            <div>
+                <label for="producto">Producto:</label>
+                <select name="producto_id" id="producto" required>
+                    <option value="" disabled selected>Seleccione un producto</option>
+                    {% for producto in productos_inventario %}
+                        <option value="{{ producto.id_producto_inv }}">{{ producto.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-            <label for="cantidad">Cantidad:</label>
-            <label> 
-            <input type="number" name="cantidad" required min="0" step="0.01">
-            <br><br>
+            <div>
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" name="cantidad" id="cantidad" required min="0" step="0.01">
+            </div>
 
-            <label for="unidad">Unidad de Medida:</label>
-            <select name="unidad" required>
-                {% for unidad in unidades %}
-                    <option value="{{ unidad.id_unidad }}">
-                        {{ unidad.nombre }}
-                    </option>
-                {% endfor %}
-            </select>
-            <br><br>
-            </label>
-            <input type="hidden" name="tipo_movimiento" value="salida">
+            <div>
+                <label for="unidad">Unidad de Medida:</label>
+                <select name="unidad" id="unidad" required>
+                    <option value="" disabled selected>Seleccione unidad</option>
+                    {% for unidad in unidades %}
+                        <option value="{{ unidad.id_unidad }}">{{ unidad.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-            <button type="submit">Registrar movimiento</button>
+            <div>
+                <label for="tipo_movimiento">Tipo de Movimiento:</label>
+                <select name="tipo_movimiento" id="tipo_movimiento" required>
+                    <option value="entrada">Entrada</option>
+                    <option value="salida" selected>Salida</option>
+                </select>
+            </div>
+
+            {% if pedido_id %}
+                <input type="hidden" name="pedido_id" value="{{ pedido_id }}">
+            {% endif %}
+
+            <button type="submit">Guardar Movimiento</button>
         </form>
 
-        <hr>
+        <div>
+            <a href="{% url 'ver_inventario' %}{% if pedido_id %}?pedido_id={{ pedido_id }}{% endif %}">
+                <button type="button">Ver Inventario</button>
+            </a>
 
-        <!-- Ahora regresa al detalle de preparación del pedido -->
-        <a href="{% url 'ver_detalle_preparacion' pedido.id_pedido %}">
-            Volver al Detalle de Preparación
-        </a>
+            {% if es_cocinero and pedido %}
+                <a href="{% url 'ver_detalle_preparacion' pedido.id_pedido %}">
+                    <button type="button">Volver a Detalle del Pedido</button>
+                </a>
+            {% endif %}
+
+            {% if es_administrador %}
+                <a href="{% url 'inicio_administrador' %}">
+                    <button type="button">Volver al Inicio</button>
+                </a>
+            {% endif %}
+        </div>
     </div>
 </body>
 </html>
