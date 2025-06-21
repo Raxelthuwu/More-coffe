@@ -1,0 +1,101 @@
+/* Estilos consistentes con el sistema */
+body {
+    background-color: #fdfaf6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #4e342e;
+    margin: 0;
+    padding: 40px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fffaf3;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+    color: #5d4037;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.messages {
+    background-color: #fff3e0;
+    padding: 15px;
+    border-left: 4px solid #ffb74d;
+    margin-bottom: 25px;
+    border-radius: 6px;
+}
+
+.messages p {
+    margin: 0;
+    color: #5d4037;
+}
+
+.form-cierre {
+    background-color: #fffaf3;
+    padding: 25px;
+    border-radius: 8px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #5d4037;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #bcaaa4;
+    border-radius: 6px;
+    background-color: white;
+    font-family: inherit;
+    font-size: 15px;
+}
+
+.btn {
+    background-color: #ffffff;
+    color: #4e342e;
+    border: 2px solid #bcaaa4;
+    border-radius: 20px;
+    padding: 12px 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 15px;
+}
+
+.btn:hover {
+    background-color: #efebe9;
+    transform: translateY(-2px);
+}
+
+.btn-cerrar {
+    background-color: #ffcdd2;
+    border-color: #ef9a9a;
+    color: #c62828;
+    width: 100%;
+}
+
+.btn-volver {
+    background-color: #d7ccc8;
+    border-color: #a1887f;
+}
+
+.acciones {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.acciones form {
+    display: inline-block;
+}

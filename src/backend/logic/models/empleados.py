@@ -22,7 +22,6 @@ class Empleados(models.Model):
     correo = models.CharField(unique=True, max_length=100)
     id_rol = models.ForeignKey(Roles, models.DO_NOTHING, db_column='id_rol')
     contrasena_hash = models.CharField(max_length=255)
-
     usuario = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -30,13 +29,14 @@ class Empleados(models.Model):
         blank=True,
         db_column='usuario_id'
     )
+    
+
+   
+    activo = models.BooleanField(default=True)
 
     class Meta:
-        managed = False
+        managed = False  
         db_table = 'empleados'
-
-    def __str__(self):
-        return f"{self.nombre} {self.apellido} - {self.id_rol.nombre_rol}"
 
 
 class Turnos(models.Model):

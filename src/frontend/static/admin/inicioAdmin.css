@@ -1,0 +1,82 @@
+/* Estilo limpio y cálido para el panel de administración */
+
+body {
+    background-color: #fdfaf6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #4e342e;
+    margin: 0;
+    padding: 40px;
+}
+
+.container {
+    max-width: 700px;
+    margin: auto;
+    background-color: #fffaf3;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.08);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #5d4037;
+}
+
+.logout-form {
+    text-align: right;
+    margin-bottom: 30px;
+}
+
+.btn {
+    background-color: #ffffff;
+    color: #4e342e;
+    border: 2px solid #bcaaa4;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.btn:hover {
+    background-color: #f3e5f5;
+    transform: translateY(-1px);
+}
+
+.seccion {
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: #6d4c41;
+    border-bottom: 2px solid #d7ccc8;
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+li {
+    margin: 6px 0;
+}
+
+.link {
+    text-decoration: none;
+    color: #4e342e;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 20px;
+    transition: background-color 0.3s;
+    display: inline-block;
+    border: 1px solid transparent;
+}
+
+.link:hover {
+    background-color: #f3e5f5;
+    border: 1px solid #d7ccc8;
+}

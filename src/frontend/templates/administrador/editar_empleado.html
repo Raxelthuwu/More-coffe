@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Editar Empleado</title>
+    <link rel="stylesheet" href="{% static 'admin/editarEmpleado.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Editar Empleado</h1>
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message-error">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="post" class="form-empleado">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" name="nombre" id="nombre" placeholder="Nombre del empleado" 
+                       title="Nombre del empleado" value="{{ empleado.nombre }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="apellido">Apellido:</label>
+                <input type="text" name="apellido" id="apellido" placeholder="Apellido del empleado" 
+                       title="Apellido del empleado" value="{{ empleado.apellido }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="correo">Correo electrónico:</label>
+                <input type="email" name="correo" id="correo" placeholder="Correo electrónico" 
+                       title="Correo electrónico" value="{{ empleado.correo }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="telefono">Teléfono:</label>
+                <input type="text" name="telefono" id="telefono" placeholder="Número de teléfono" 
+                       title="Número de teléfono" value="{{ empleado.telefono }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="rol">Rol:</label>
+                <select name="rol" id="rol" required title="Rol del empleado">
+                    <option value="">-- Selecciona un rol --</option>
+                    <option value="1" {% if empleado.id_rol.id_rol == 1 %}selected{% endif %}>Administrador</option>
+                    <option value="2" {% if empleado.id_rol.id_rol == 2 %}selected{% endif %}>Mesero</option>
+                    <option value="3" {% if empleado.id_rol.id_rol == 3 %}selected{% endif %}>Cocinero</option>
+                    <option value="4" {% if empleado.id_rol.id_rol == 4 %}selected{% endif %}>Cajero</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Nueva Contraseña (opcional):</label>
+                <input type="password" name="password" id="password" placeholder="Nueva contraseña" 
+                       title="Nueva contraseña">
+                <small class="hint">Dejar en blanco para mantener la contraseña actual</small>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                <a href="{% url 'listar_empleados' %}" class="btn btn-secondary">← Volver al listado</a>
+                <a href="{% url 'inicio_administrador' %}" class="btn btn-secondary">← Volver al inicio</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

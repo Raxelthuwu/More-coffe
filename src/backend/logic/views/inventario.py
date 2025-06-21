@@ -26,7 +26,7 @@ class VerInventarioView(LoginRequiredMixin, View):
             raise PermissionDenied("Los cocineros deben acceder desde un pedido")
         
         return render(request, 'inventario/ver_inventario.html', {
-            'productos': ProductosInventario.objects.select_related('id_proveedor').all(),
+            'productos': ProductosInventario.objects.select_related('id_proveedor').filter(activo=True),
             'es_cocinero': es_cocinero,
             'es_administrador': es_administrador,
             'pedido_id': pedido_id,

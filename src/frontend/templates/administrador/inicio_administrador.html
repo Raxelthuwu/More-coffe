@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Panel de Administración</title>
+    <link rel="stylesheet" href="{% static 'admin/inicioAdmin.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Panel del Administrador</h1>
+
+        <!-- Botón para cerrar sesión -->
+        <form method="POST" action="{% url 'logout' %}" class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-logout">Cerrar Sesión</button>
+        </form>
+
+        <div class="seccion">
+            <h2>Empleados</h2>
+            <ul>
+                <li><a href="{% url 'listar_empleados' %}" class="link">Ver</a></li>
+                <li><a href="{% url 'crear_empleado' %}" class="link">Crear</a></li>
+            </ul>
+        </div>
+
+        <div class="seccion">
+            <h2>Inventario</h2>
+            <ul>
+                <li><a href="{% url 'ver_inventario' %}" class="link">Ver</a></li>
+                <li><a href="{% url 'crear_producto_inventario' %}" class="link">Crear</a></li>
+            </ul>
+        </div>
+
+        <div class="seccion">
+            <h2>Proveedores</h2>
+            <ul>
+                <li><a href="{% url 'listar_proveedores' %}" class="link">Ver</a></li>
+                <li><a href="{% url 'crear_proveedor' %}" class="link">Crear</a></li>
+            </ul>
+        </div>
+
+        <div class="seccion">
+            <h2>Turnos</h2>
+            <ul>
+                <li><a href="{% url 'listar_turnos' %}" class="link">Ver</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

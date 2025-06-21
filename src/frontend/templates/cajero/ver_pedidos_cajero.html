@@ -1,54 +1,58 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pedidos para Cobrar</title>
+    <link rel="stylesheet" href="{% static 'cajero/ver_pedidos_cajero.css' %}">
 </head>
 <body>
-    <h1>Pedidos Listos para Cobrar</h1>
+    <div class="container">
+        <h1>Pedidos Listos para Cobrar</h1>
 
-    {% if messages %}
-        <div>
-            {% for message in messages %}
-                <p><strong>{{ message }}</strong></p>
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    {% if pedidos %}
-        <table border="1" cellpadding="5" cellspacing="0">
-            <thead>
-                <tr>
-                    <th>ID Pedido</th>
-                    <th>Fecha</th>
-                    <th>Estado</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for pedido in pedidos %}
-                    <tr>
-                        <td>{{ pedido.id_pedido }}</td>
-                        <td>{{ pedido.fecha }}</td>
-                        <td>{{ pedido.estado }}</td>
-                        <td>
-                            <a href="{% url 'ver_detalle_pedido_cajero' pedido.id_pedido %}">
-                                <button type="button">Ver Detalle / Cobrar</button>
-                            </a>
-                        </td>
-                    </tr>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <p><strong>{{ message }}</strong></p>
                 {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>No hay pedidos entregados para cobrar.</p>
-    {% endif %}
+            </div>
+        {% endif %}
 
-    <div>
-        <a href="{% url 'cierre_caja' %}">
-            <button type="button">Cierre de Caja</button>
-        </a>
+        {% if pedidos %}
+            <table class="tabla-pedidos">
+                <thead>
+                    <tr>
+                        <th>ID Pedido</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pedido in pedidos %}
+                        <tr>
+                            <td>{{ pedido.id_pedido }}</td>
+                            <td>{{ pedido.fecha }}</td>
+                            <td>{{ pedido.estado }}</td>
+                            <td>
+                                <a href="{% url 'ver_detalle_pedido_cajero' pedido.id_pedido %}">
+                                    <button type="button" class="btn">Ver Detalle / Cobrar</button>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="mensaje-vacio">No hay pedidos entregados para cobrar.</p>
+        {% endif %}
+
+        <div class="acciones">
+            <a href="{% url 'cierre_caja' %}">
+                <button type="button" class="btn btn-cierre">Cierre de Caja</button>
+            </a>
+        </div>
     </div>
 </body>
 </html>

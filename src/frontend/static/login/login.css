@@ -1,0 +1,102 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f9f3ef; /* Café claro pastel */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #4e342e; /* Marrón suave */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-container {
+    background-color: #ffffff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(78, 52, 46, 0.1);
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #3e2723;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #5d4037;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #d7ccc8;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #fefaf7;
+    transition: border 0.3s ease;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: #a1887f;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    background-color: #6d4c41;
+    color: #ffffff;
+    font-weight: bold;
+    border: none;
+    border-radius: 25px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-login:hover {
+    background-color: #5d4037;
+}
+
+.cliente-acceso {
+    margin-top: 20px;
+}
+
+.btn-cliente {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #d7ccc8;
+    color: #3e2723;
+    border: 2px solid transparent;
+    border-radius: 25px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.3s ease, border 0.3s ease;
+}
+
+.btn-cliente:hover {
+    background-color: #efebe9;
+    border-color: #a1887f;
+}
+
+.messages p {
+    background-color: #fff3e0;
+    color: #bf360c;
+    border-left: 5px solid #ff7043;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}

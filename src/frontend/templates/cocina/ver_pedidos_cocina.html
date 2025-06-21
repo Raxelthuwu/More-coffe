@@ -1,9 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedidos para la Cocina</title>
+    <link rel="stylesheet" href="{% static 'cocina/pedidos_cocina.css' %}">
 </head>
 <body>
     <div class="container">
@@ -23,13 +25,13 @@
                     <td>{{ pedido.estado }}</td>
                     <td>
                         {% if pedido.estado == "enviado_cocina" %}
-                        <form method="POST" action="{% url 'tomar_pedido_cocina' pedido.id_pedido %}" style="display:inline;">
+                        <form method="POST" action="{% url 'tomar_pedido_cocina' pedido.id_pedido %}">
                             {% csrf_token %}
                             <button type="submit">Preparar</button>
                         </form>
                         {% elif pedido.estado == "en_preparacion" %}
-                        <a href="{% url 'ver_detalle_preparacion' pedido.id_pedido %}">Ver Detalles</a>
-                        <form method="POST" action="{% url 'finalizar_pedido_cocina' pedido.id_pedido %}" style="display:inline;">
+                        <a href="{% url 'ver_detalle_preparacion' pedido.id_pedido %}" class="btn">Ver Detalles</a>
+                        <form method="POST" action="{% url 'finalizar_pedido_cocina' pedido.id_pedido %}">
                             {% csrf_token %}
                             <button type="submit">Listo</button>
                         </form>
@@ -40,7 +42,7 @@
             </tbody>
         </table>
 
-        <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+        <form method="POST" action="{% url 'logout' %}">
             {% csrf_token %}
             <button type="submit">Cerrar Sesión</button>
         </form>

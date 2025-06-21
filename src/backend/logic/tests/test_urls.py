@@ -26,7 +26,6 @@ from logic.views.cocinero import (
     VerPedidosCocinaView,
     TomarPedidoCocinaView,
     VerDetallePreparacionView,
-    RegistrarPreparacionView,
 )
 
 # Inventario

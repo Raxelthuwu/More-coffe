@@ -1,9 +1,12 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Registrar Movimiento</title>
+    <link rel="stylesheet" href="{% static 'inventario/formulario_movimiento.css' %}">
 </head>
 <body>
     <div>
@@ -79,6 +82,9 @@
             {% if es_administrador %}
                 <a href="{% url 'inicio_administrador' %}">
                     <button type="button">Volver al Inicio</button>
+                </a>
+                <a href="{% url 'historial_movimientos' %}">
+                    <button type="button">Ver Historial de Movimientos</button>
                 </a>
             {% endif %}
         </div>

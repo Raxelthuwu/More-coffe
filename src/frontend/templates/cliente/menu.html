@@ -1,41 +1,40 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú de Productos</title>
+    <link rel="stylesheet" href="{% static 'cliente/menu.css' %}">
 </head>
 <body>
     <div class="container">
         <h1>Menú</h1>
-
         <form method="POST" action="{% url 'enviar_pedido' %}">
             {% csrf_token %}
             
-            {% for producto in productos %}
-                <div class="producto">
-                    <label>
-                        <strong>{{ producto.nombre }}</strong> - ${{ producto.precio }}
-                        <input type="number" name="producto_{{ producto.id_producto_menu }}" min="0" value="0">
-                    </label>
-                    <div>
+            <div class="product-grid">
+                {% for producto in productos %}
+                    <div class="producto">
                         {% if producto.url_imagen %}
-                            <img src="{{ producto.url_imagen }}" alt="{{ producto.nombre }}" width="100">
+                            <img src="{{ producto.url_imagen }}" alt="{{ producto.nombre }}">
                         {% else %}
-                            <span>Sin imagen</span>
+                            <img src="{% static 'cliente/placeholder.png' %}" alt="Sin imagen">
                         {% endif %}
+                        <label>
+                            {{ producto.nombre }} - ${{ producto.precio }}
+                            <input type="number" name="producto_{{ producto.id_producto_menu }}" min="0" value="0">
+                        </label>
                     </div>
-                </div>
-                <hr>
-            {% endfor %}
+                {% endfor %}
+            </div>
 
-            <label for="comentario">Comentario para el pedido (opcional):</label><br>
+            <label for="comentario">Comentario para el pedido (opcional):</label>
             <textarea name="comentario" id="comentario" rows="3" placeholder="Ej: Sin azúcar, doble queso, etc."></textarea>
 
-            <div class="botones">
-                <button type="submit" class="confirmar">Pedir Orden</button>
-                <button type="submit" name="action" value="cancelar_mesa" class="cancelar">Cancelar Orden</button>
-            </div>
+            <button type="submit" name="action" value="cancelar_mesa" class="cancelar">Cancelar Orden</button>
+            <button type="submit" class="confirmar">Pedir Orden</button>
         </form>
     </div>
 </body>

@@ -1,0 +1,89 @@
+body {
+    background-color: #fefaf5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #4e342e;
+    margin: 0;
+    padding: 40px 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+h2, h3 {
+    text-align: center;
+    color: #5d4037;
+}
+
+p {
+    font-size: 1rem;
+    margin: 10px 0;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background-color: #fff8f2;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 8px rgba(0,0,0,0.05);
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #e0cfc2;
+}
+
+th {
+    background-color: #d7ccc8;
+    color: #3e2723;
+}
+
+tbody tr:hover {
+    background-color: #f3e5f5;
+}
+
+.acciones {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s ease all;
+}
+
+.btn.tomar {
+    background-color: #795548;
+}
+
+.btn.entregar {
+    background-color: #6d4c41;
+}
+
+.btn.cocina {
+    background-color: #8d6e63;
+}
+
+.btn.volver {
+    background-color: #a1887f;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}

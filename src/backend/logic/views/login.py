@@ -32,7 +32,7 @@ class LoginView(View):
             elif rol == 'cajero':
                 return redirect('apertura_caja')
             elif rol == 'administrador':
-                return redirect('admin/administrador.html')
+                return redirect('inicio_administrador')
             else:
                 messages.error(request, "Rol no reconocido.")
                 return redirect('login')

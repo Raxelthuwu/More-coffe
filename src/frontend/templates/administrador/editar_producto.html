@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Editar Producto</title>
+    <link rel="stylesheet" href="{% static 'admin/editarProducto.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Editar Producto</h1>
+
+        <div class="header-actions">
+            <a href="{% url 'ver_inventario' %}" class="btn btn-back">← Volver al inventario</a>
+            <a href="{% url 'inicio_administrador' %}" class="btn btn-back">← Volver al inicio del administrador</a>
+        </div>
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="post" class="product-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" name="nombre" id="nombre" placeholder="Nombre del producto" title="Nombre del producto" value="{{ producto.nombre }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="unidad_medida">Unidad de medida:</label>
+                <select name="unidad_medida" id="unidad_medida" required title="Unidad de medida">
+                    <option value="">-- Selecciona una unidad --</option>
+                    {% for unidad in unidades %}
+                        <option value="{{ unidad.sigla }}" {% if unidad.sigla == producto.unidad_medida %}selected{% endif %}>{{ unidad.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="proveedor_id">Proveedor:</label>
+                <select name="proveedor_id" id="proveedor_id" title="Proveedor">
+                    <option value="">-- Sin proveedor --</option>
+                    {% for proveedor in proveedores %}
+                        <option value="{{ proveedor.id_proveedor }}" {% if proveedor.id_proveedor == producto.id_proveedor.id_proveedor %}selected{% endif %}>
+                            {{ proveedor.nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="stock_actual">Stock actual:</label>
+                <input type="number" name="stock_actual" id="stock_actual" placeholder="Cantidad actual" title="Stock actual" value="{{ producto.stock_actual }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="stock_minimo">Stock mínimo:</label>
+                <input type="number" name="stock_minimo" id="stock_minimo" placeholder="Cantidad mínima" title="Stock mínimo" value="{{ producto.stock_minimo }}">
+            </div>
+
+            <div class="form-group">
+                <label for="stock_maximo">Stock máximo:</label>
+                <input type="number" name="stock_maximo" id="stock_maximo" placeholder="Cantidad máxima" title="Stock máximo" value="{{ producto.stock_maximo }}">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </form>
+    </div>
+</body>
+</html>

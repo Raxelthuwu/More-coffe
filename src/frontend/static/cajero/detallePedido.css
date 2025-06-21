@@ -1,0 +1,155 @@
+/* Estilos base */
+body {
+    background-color: #fdfaf6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #4e342e;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: #fff8f2;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Tipografía */
+h1 {
+    color: #5d4037;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+h2 {
+    color: #5d4037;
+    margin-top: 40px;
+    border-bottom: 2px solid #d7ccc8;
+    padding-bottom: 10px;
+}
+
+/* Tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin: 25px 0;
+}
+
+th, td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #e0cfc2;
+}
+
+th {
+    background-color: #d7ccc8;
+    color: #3e2723;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+tr:hover {
+    background-color: #f3e5f5;
+}
+
+/* Total del pedido */
+.total-pedido {
+    text-align: right;
+    font-size: 18px;
+    margin: 20px 0;
+    color: #5d4037;
+}
+
+/* Formulario */
+form {
+    background-color: #fffaf3;
+    padding: 25px;
+    border-radius: 8px;
+    margin: 30px 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #5d4037;
+}
+
+select, input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #bcaaa4;
+    border-radius: 6px;
+    background-color: white;
+    font-family: inherit;
+    font-size: 15px;
+}
+
+/* Botones */
+button {
+    background-color: #ffffff;
+    color: #4e342e;
+    border: 2px solid #bcaaa4;
+    border-radius: 20px;
+    padding: 12px 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 15px;
+}
+
+button:hover {
+    background-color: #efebe9;
+    transform: translateY(-2px);
+}
+
+.btn-pagar {
+    background-color: #a5d6a7;
+    border-color: #81c784;
+}
+
+.btn-volver {
+    background-color: #d7ccc8;
+    border-color: #a1887f;
+    margin-top: 10px;
+}
+
+/* Mensajes */
+.messages {
+    background-color: #fff3e0;
+    padding: 15px;
+    border-left: 4px solid #ffb74d;
+    margin-bottom: 25px;
+    border-radius: 6px;
+}
+
+.messages p {
+    margin: 0;
+    color: #5d4037;
+}
+
+/* Acciones */
+.acciones {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.acciones form {
+    display: inline-block;
+    background: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}

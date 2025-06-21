@@ -1,9 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Detalle de preparación</title>
+    <link rel="stylesheet" href="{% static 'cocina/detalles.css' %}">
 </head>
 <body>
     <div class="container">
@@ -12,7 +14,7 @@
         <h2>Detalles del pedido</h2>
 
         {% if pedido.comentarios %}
-            <p><strong>Comentarios:</strong> {{ pedido.comentarios }}</p>
+            <p class="comentarios"><strong>Comentarios:</strong> {{ pedido.comentarios }}</p>
         {% endif %}
 
         <table>
@@ -29,7 +31,7 @@
                     <td>{{ detalle.id_producto_menu.nombre }}</td>
                     <td>
                         {% if detalle.id_producto_menu.url_imagen %}
-                            <img src="{{ detalle.id_producto_menu.url_imagen }}" alt="{{ detalle.id_producto_menu.nombre }}" width="100">
+                            <img src="{{ detalle.id_producto_menu.url_imagen }}" alt="{{ detalle.id_producto_menu.nombre }}" class="producto-imagen">
                         {% else %}
                             <span>Sin imagen</span>
                         {% endif %}
@@ -42,13 +44,14 @@
 
         <h2>Gestión de inventario</h2>
         <form method="GET" action="{% url 'formulario_movimiento_pedido' pedido.id_pedido %}">
-            <button type="submit">Registrar Movimiento de Inventario</button>
+            <button type="submit" class="btn">Registrar Movimiento de Inventario</button>
         </form>
 
         <hr>
-        <div>
+
+        <div style="text-align: center; margin-top: 20px;">
             <form method="GET" action="{% url 'ver_pedidos_cocina' %}">
-                <button type="submit">Volver a Pedidos</button>
+                <button type="submit" class="btn">Volver a Pedidos</button>
             </form>
         </div>
     </div>

@@ -1,11 +1,13 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'cliente/cliente.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seleccionar Mesa</title>
 </head>
-
 <body>
     <h2>Seleccione una Mesa</h2>
 
@@ -52,9 +54,9 @@
         </tbody>
     </table>
 
-    <h3>¿Eres un empleado?</h3>
+    
     <form method="GET" action="{% url 'login' %}">
-        <button type="submit">Ir al Login para Empleados</button>
+        <a href="{% url 'login' %}" class="login-btn"> ¿Eres un empleado? Ir al Login</a>
     </form>
 </body>
 </html>
