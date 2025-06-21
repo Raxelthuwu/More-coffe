@@ -8,7 +8,6 @@ from logic.models.inventario import ProductosInventario, MovimientosInventario, 
 from logic.models.empleados import Empleados, Turnos
 from django.http import HttpResponseForbidden
 
-
 class InicioAdministradorView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'administrador/inicio_administrador.html')
@@ -45,8 +44,7 @@ class CrearProductoInventarioView(LoginRequiredMixin, View):
             id_proveedor_id=proveedor_id if proveedor_id else None,
             stock_actual=stock_actual,
             stock_minimo=stock_minimo or 0,
-            stock_maximo=stock_maximo or 0,
-            activo=True
+            stock_maximo=stock_maximo or 0
         )
 
         messages.success(request, "Producto creado correctamente.")
@@ -55,7 +53,7 @@ class CrearProductoInventarioView(LoginRequiredMixin, View):
 
 class EditarProductoInventarioView(LoginRequiredMixin, View):
     def get(self, request, producto_id):
-        producto = get_object_or_404(ProductosInventario, pk=producto_id, activo=True)
+        producto = get_object_or_404(ProductosInventario, pk=producto_id)
         unidades = UnidadesMedida.objects.all()
         proveedores = Proveedores.objects.filter(activo=True)
         return render(request, 'administrador/editar_producto.html', {'producto': producto, 'unidades': unidades, 'proveedores': proveedores})
@@ -73,13 +71,17 @@ class EditarProductoInventarioView(LoginRequiredMixin, View):
         return redirect('ver_inventario')
 
 
+
+
 class EliminarProductoInventarioView(LoginRequiredMixin, View):
     def post(self, request, producto_id):
+        empleado = getattr(request.user, 'empleado', None)
         producto = get_object_or_404(ProductosInventario, pk=producto_id)
         producto.activo = False
         producto.save()
         messages.success(request, "Producto eliminado correctamente.")
         return redirect('ver_inventario')
+
 
 
 # EMPLEADOS
@@ -115,7 +117,7 @@ class CrearEmpleadoView(LoginRequiredMixin, View):
 
         try:
             user = User.objects.create_user(username=correo, email=correo, password=password)
-        except Exception:
+        except Exception as e:
             messages.error(request, "Error al crear el usuario.")
             return redirect('crear_empleado')
 
@@ -130,7 +132,7 @@ class CrearEmpleadoView(LoginRequiredMixin, View):
                 usuario=user,
                 activo=True
             )
-        except Exception:
+        except Exception as e:
             user.delete()
             messages.error(request, "Error al crear el empleado.")
             return redirect('crear_empleado')
@@ -141,7 +143,7 @@ class CrearEmpleadoView(LoginRequiredMixin, View):
 
 class EditarEmpleadoView(LoginRequiredMixin, View):
     def get(self, request, empleado_id):
-        empleado = get_object_or_404(Empleados, pk=empleado_id, activo=True)
+        empleado = get_object_or_404(Empleados, pk=empleado_id)
         return render(request, 'administrador/editar_empleado.html', {'empleado': empleado})
 
     def post(self, request, empleado_id):
@@ -219,14 +221,14 @@ class CrearProveedorView(LoginRequiredMixin, View):
             messages.error(request, "Nombre y teléfono son obligatorios.")
             return redirect('crear_proveedor')
 
-        Proveedores.objects.create(nombre=nombre, telefono=telefono, correo=correo, activo=True)
+        Proveedores.objects.create(nombre=nombre, telefono=telefono, correo=correo)
         messages.success(request, "Proveedor creado correctamente.")
         return redirect('listar_proveedores')
 
 
 class EditarProveedorView(LoginRequiredMixin, View):
     def get(self, request, proveedor_id):
-        proveedor = get_object_or_404(Proveedores, pk=proveedor_id, activo=True)
+        proveedor = get_object_or_404(Proveedores, pk=proveedor_id)
         return render(request, 'administrador/editar_proveedor.html', {'proveedor': proveedor})
 
     def post(self, request, proveedor_id):
@@ -251,6 +253,5 @@ class EliminarProveedorView(LoginRequiredMixin, View):
 # TURNOS
 class ListarTurnosView(LoginRequiredMixin, View):
     def get(self, request):
-        # Mostrar solo turnos de empleados activos
-        turnos = Turnos.objects.select_related('id_empleado').filter(id_empleado__activo=True).order_by('-hora_entrada')
+        turnos = Turnos.objects.select_related('id_empleado').order_by('-hora_entrada')
         return render(request, 'administrador/listar_turnos.html', {'turnos': turnos})
