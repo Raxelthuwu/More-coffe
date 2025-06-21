@@ -38,7 +38,7 @@ class ProductosInventario(models.Model):
     stock_actual = models.DecimalField(max_digits=10, decimal_places=1)
     stock_minimo = models.DecimalField(max_digits=10, decimal_places=1)
     stock_maximo = models.DecimalField(max_digits=10, decimal_places=1)
-    activo = models.BooleanField(default=True)  # <-- campo agregado
+    activo = models.BooleanField(default=True)  
 
     class Meta:
         managed = False

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Editar Producto</title>
+</head>
+<body>
+
+    <h1>Editar Producto</h1>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li style="color: red;">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" name="nombre" id="nombre" placeholder="Nombre del producto" title="Nombre del producto" value="{{ producto.nombre }}" required><br><br>
+
+        <label for="unidad_medida">Unidad de medida:</label><br>
+        <select name="unidad_medida" id="unidad_medida" required title="Unidad de medida">
+            <option value="">-- Selecciona una unidad --</option>
+            {% for unidad in unidades %}
+                <option value="{{ unidad.sigla }}" {% if unidad.sigla == producto.unidad_medida %}selected{% endif %}>{{ unidad.nombre }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="proveedor_id">Proveedor:</label><br>
+        <select name="proveedor_id" id="proveedor_id" title="Proveedor">
+            <option value="">-- Sin proveedor --</option>
+            {% for proveedor in proveedores %}
+                <option value="{{ proveedor.id_proveedor }}" {% if proveedor.id_proveedor == producto.id_proveedor.id_proveedor %}selected{% endif %}>
+                    {{ proveedor.nombre }}
+                </option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="stock_actual">Stock actual:</label><br>
+        <input type="number" name="stock_actual" id="stock_actual" placeholder="Cantidad actual" title="Stock actual" value="{{ producto.stock_actual }}" required><br><br>
+
+        <label for="stock_minimo">Stock mínimo:</label><br>
+        <input type="number" name="stock_minimo" id="stock_minimo" placeholder="Cantidad mínima" title="Stock mínimo" value="{{ producto.stock_minimo }}"><br><br>
+
+        <label for="stock_maximo">Stock máximo:</label><br>
+        <input type="number" name="stock_maximo" id="stock_maximo" placeholder="Cantidad máxima" title="Stock máximo" value="{{ producto.stock_maximo }}"><br><br>
+
+        <button type="submit">Guardar Cambios</button>
+    </form>
+
+    <br>
+    <a href="{% url 'ver_inventario' %}">← Volver al inventario</a><br>
+    <a href="{% url 'inicio_administrador' %}">← Volver al inicio del administrador</a>
+
+</body>
+</html>

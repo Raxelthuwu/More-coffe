@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Historial de Movimientos</title>
+</head>
+<body>
+    <h1>Historial de Movimientos de Inventario</h1>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if movimientos %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Unidad</th>
+                    <th>Tipo</th>
+                    <th>Empleado</th>
+                    <th>Fecha y Hora</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for movimiento in movimientos %}
+                    <tr>
+                        <td>{{ movimiento.id_producto_inv.nombre }}</td>
+                        <td>{{ movimiento.cantidad }}</td>
+                        <td>{{ movimiento.id_unidad.nombre_unidad }}</td>
+                        <td>{{ movimiento.tipo }}</td>
+                        <td>{{ movimiento.id_empleado.nombre }} {{ movimiento.id_empleado.apellido }}</td>
+                        <td>{{ movimiento.fecha_hora }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay movimientos registrados.</p>
+    {% endif %}
+
+    <br>
+    <a href="{% url 'formulario_movimiento' %}">← Volver a formulario</a>
+</body>
+</html>
