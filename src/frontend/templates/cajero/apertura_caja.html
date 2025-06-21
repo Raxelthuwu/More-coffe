@@ -8,6 +8,14 @@
 <body>
     <h1>Apertura de Caja</h1>
 
+
+   
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Cerrar sesión</button>
+        </form>
+
+
     {% if messages %}
     <div>
         {% for message in messages %}
@@ -26,3 +34,4 @@
     </form>
 </body>
 </html>
+

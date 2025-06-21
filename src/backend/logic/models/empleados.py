@@ -29,6 +29,7 @@ class Empleados(models.Model):
         blank=True,
         db_column='usuario_id'
     )
+    
 
    
     activo = models.BooleanField(default=True)
