@@ -1,9 +1,12 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedidos Asignados al Mesero</title>
+    <link rel="stylesheet" href="{% static 'mesero/pedidosAsignados.css' %}">
 </head>
 <body>
     <h2>Pedidos Asignados</h2>
@@ -27,7 +30,6 @@
                     <td>{{ pedido.estado }}</td>
                     <td>
                         <form method="GET" action="{% url 'detalle_pedido_mesero' pedido.id_pedido %}">
-                            {% csrf_token %}
                             <button type="submit">Ver Detalle</button>
                         </form>
                     </td>
@@ -38,9 +40,7 @@
         </tbody>
     </table>
 
-    <!-- Botones de navegación -->
     <form method="GET" action="{% url 'notificaciones_mesero' %}">
-        {% csrf_token %}
         <button type="submit">Volver a Notificaciones</button>
     </form>
 </body>

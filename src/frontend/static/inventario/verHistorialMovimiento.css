@@ -1,0 +1,73 @@
+body {
+    background-color: #fdfaf6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #4e342e;
+    margin: 0;
+    padding: 30px;
+}
+
+h1 {
+    text-align: center;
+    color: #5d4037;
+    margin-bottom: 30px;
+}
+
+/* Mensajes */
+ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+ul li {
+    background-color: #ffe0b2;
+    border-left: 6px solid #ff9800;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff8f2;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table th,
+table td {
+    padding: 14px;
+    text-align: center;
+    border-bottom: 1px solid #e0cfc2;
+}
+
+table th {
+    background-color: #d7ccc8;
+    color: #3e2723;
+}
+
+tbody tr:hover {
+    background-color: #f3e5f5;
+    transition: background-color 0.3s ease;
+}
+
+/* Enlace al formulario */
+a {
+    display: inline-block;
+    margin-top: 30px;
+    background-color: #ffffff;
+    color: #4e342e;
+    border: 2px solid #bcaaa4;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+a:hover {
+    background-color: #efebe9;
+}

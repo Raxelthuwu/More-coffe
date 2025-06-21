@@ -1,59 +1,79 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Inventario de Productos</title>
+    <link rel="stylesheet" href="{% static 'inventario/verinventario.css' %}">
 </head>
 <body>
-    <div>
+    <div class="container">
         <h1>Inventario de Productos</h1>
 
+        <div class="header-actions">
+            {% if es_administrador %}
+                <a href="{% url 'inicio_administrador' %}" class="btn btn-back">← Volver al Inicio</a>
+                <a href="{% url 'crear_producto_inventario' %}" class="btn btn-primary">Crear Producto</a>
+            {% endif %}
+        </div>
+
         {% if messages %}
-            <div>
+            <div class="messages">
                 {% for message in messages %}
-                    <p><strong>{{ message }}</strong></p>
+                    <div class="message">{{ message }}</div>
                 {% endfor %}
             </div>
         {% endif %}
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Stock Actual</th>
-                    <th>Proveedor</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for producto in productos %}
+        <div class="table-container">
+            <table class="inventory-table">
+                <thead>
                     <tr>
-                        <td>{{ producto.nombre }}</td>
-                        <td>{{ producto.stock_actual }}</td>
-                        <td>{{ producto.id_proveedor.nombre }}</td>
+                        <th>Producto</th>
+                        <th>Stock Actual</th>
+                        <th>Proveedor</th>
+                        {% if es_administrador %}
+                            <th>Acciones</th>
+                        {% endif %}
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                        <tr>
+                            <td>{{ producto.nombre }}</td>
+                            <td>{{ producto.stock_actual }}</td>
+                            <td>{{ producto.id_proveedor.nombre }}</td>
+                            {% if es_administrador %}
+                                <td class="actions">
+                                    <a href="{% url 'editar_producto_inventario' producto.id_producto_inv %}" class="btn btn-edit">Editar</a>
+                                    <form action="{% url 'eliminar_producto_inventario' producto.id_producto_inv %}" method="post" class="inline-form">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-delete" onclick="return confirm('¿Deseas eliminar este producto?');">Eliminar</button>
+                                    </form>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="{% if es_administrador %}4{% else %}3{% endif %}" class="empty-message">No hay productos en el inventario.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-        <div>
+        <div class="footer-actions">
             {% if es_cocinero %}
                 {% if pedido_id %}
-                    <form action="{% url 'formulario_movimiento_pedido' pedido_id %}" method="get" style="display: inline;">
-                        <button type="submit">Ir al Formulario de Movimiento</button>
-                    </form>
+                    <a href="{% url 'formulario_movimiento_pedido' pedido_id %}" class="btn btn-primary">Ir al Formulario de Movimiento</a>
                 {% else %}
-                    <p><strong>No hay pedido activo para registrar movimiento.</strong></p>
+                    <p class="empty-message">No hay pedido activo para registrar movimiento.</p>
                 {% endif %}
             {% endif %}
 
             {% if es_administrador %}
-                <form action="{% url 'formulario_movimiento' %}" method="get" style="display: inline;">
-                    <button type="submit">Ir al Formulario de Movimiento</button>
-                </form>
-                <form action="{% url 'inicio_administrador' %}" method="get" style="display: inline;">
-                    <button type="submit">Volver al Inicio</button>
-                </form>
+                <a href="{% url 'formulario_movimiento' %}" class="btn btn-primary">Ir al Formulario de Movimiento</a>
             {% endif %}
         </div>
     </div>

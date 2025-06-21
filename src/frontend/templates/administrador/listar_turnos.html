@@ -1,55 +1,60 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Listado de Turnos</title>
+    <link rel="stylesheet" href="{% static 'admin/listarTurnos.css' %}">
 </head>
 <body>
+    <div class="container">
+        <h1>Listado de Turnos</h1>
 
-    <h1>Listado de Turnos</h1>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
 
-    {% if messages %}
-        <div>
-            {% for message in messages %}
-                <p><strong>{{ message }}</strong></p>
-            {% endfor %}
+        <div class="table-container">
+            <table class="turnos-table">
+                <thead>
+                    <tr>
+                        <th>Empleado</th>
+                        <th>Fecha</th>
+                        <th>Hora de Entrada</th>
+                        <th>Hora de Salida</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for turno in turnos %}
+                        <tr>
+                            <td>{{ turno.id_empleado.nombre }} {{ turno.id_empleado.apellido }}</td>
+                            <td>{{ turno.hora_entrada|date:"d/m/Y" }}</td>
+                            <td>{{ turno.hora_entrada|date:"H:i" }}</td>
+                            <td>
+                                {% if turno.hora_salida %}
+                                    {{ turno.hora_salida|date:"H:i" }}
+                                {% else %}
+                                    <span class="badge-en-curso">En curso</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" class="empty-message">No hay turnos registrados.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-    {% endif %}
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Empleado</th>
-                <th>Fecha</th>
-                <th>Hora de Entrada</th>
-                <th>Hora de Salida</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for turno in turnos %}
-                <tr>
-                    <td>{{ turno.id_empleado.nombre }} {{ turno.id_empleado.apellido }}</td>
-                    <td>{{ turno.hora_entrada|date:"d/m/Y" }}</td>
-                    <td>{{ turno.hora_entrada|date:"H:i" }}</td>
-                    <td>
-                        {% if turno.hora_salida %}
-                            {{ turno.hora_salida|date:"H:i" }}
-                        {% else %}
-                            <em>En curso</em>
-                        {% endif %}
-                    </td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="4">No hay turnos registrados.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <br>
-    <a href="{% url 'inicio_administrador' %}">← Volver al inicio del administrador</a>
-
+        <div class="actions">
+            <a href="{% url 'inicio_administrador' %}" class="btn btn-back">← Volver al inicio</a>
+        </div>
+    </div>
 </body>
 </html>

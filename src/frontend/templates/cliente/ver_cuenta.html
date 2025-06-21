@@ -1,9 +1,12 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resumen del Pedido</title>
+    <link rel="stylesheet" href="{% static 'cliente/vercuenta.css' %}">
 </head>
 <body>
     <div class="container">
@@ -36,12 +39,12 @@
 
         <div class="acciones">
             <form action="{% url 'volver_menu' %}" method="get">
-                <button type="submit">Volver a ordenar</button>
+                <button type="submit" class="btn volver">Volver a ordenar</button>
             </form>
 
             <form action="{% url 'cancelar_pedido' %}" method="post">
                 {% csrf_token %}
-                <button type="submit">Cancelar pedido</button>
+                <button type="submit" class="btn cancelar">Cancelar pedido</button>
             </form>
         </div>
     </div>

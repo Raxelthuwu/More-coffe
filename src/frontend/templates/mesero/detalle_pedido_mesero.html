@@ -1,63 +1,66 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle del Pedido</title>
+    <link rel="stylesheet" href="{% static 'mesero/detallesPedido.css' %}">
 </head>
 <body>
-    <h2>Detalle del Pedido #{{ pedido.id_pedido }}</h2>
-    <h3>Mesa: {{ pedido.id_mesa.id_mesa }}</h3>
-    <p>Fecha y hora: {{ pedido.fecha_hora_creacion|date:"d-m-Y H:i" }}</p>
-    <p>Estado: {{ pedido.estado }}</p>
+    <div class="container">
+        <h2>Detalle del Pedido #{{ pedido.id_pedido }}</h2>
+        <h3>Mesa: {{ pedido.id_mesa.id_mesa }}</h3>
+        <p><strong>Fecha y hora:</strong> {{ pedido.fecha_hora_creacion|date:"d-m-Y H:i" }}</p>
+        <p><strong>Estado:</strong> {{ pedido.estado }}</p>
 
-    <h3>Productos</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Precio Unitario</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for detalle in detalles %}
+        <h3>Productos</h3>
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ detalle.id_producto_menu.nombre }}</td>
-                    <td>{{ detalle.cantidad }}</td>
-                    <td>${{ detalle.precio_unitario_venta }}</td>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for detalle in detalles %}
+                    <tr>
+                        <td>{{ detalle.id_producto_menu.nombre }}</td>
+                        <td>{{ detalle.cantidad }}</td>
+                        <td>${{ detalle.precio_unitario_venta }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-    <div class="acciones">
-        {% if puede_tomar %}
-            <form method="POST" action="{% url 'tomar_mesa' pedido.id_pedido %}">
-                {% csrf_token %}
-                <button type="submit">Tomar Mesa</button>
+        <div class="acciones">
+            {% if puede_tomar %}
+                <form method="POST" action="{% url 'tomar_mesa' pedido.id_pedido %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn tomar">Tomar Mesa</button>
+                </form>
+            {% endif %}
+
+            {% if puede_entregar %}
+                <form method="POST" action="{% url 'entregar_pedido' pedido.id_pedido %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn entregar">Marcar como Entregado</button>
+                </form>
+            {% endif %}
+
+            {% if pedido.estado == 'asignado_mesero' %}
+                <form method="POST" action="{% url 'enviar_pedido_cocina' pedido.id_pedido %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn cocina">Enviar a Cocina</button>
+                </form>
+            {% endif %}
+
+            <form method="GET" action="{% url 'ver_pedidos_mesero' %}">
+                <button type="submit" class="btn volver">Volver a Pedidos</button>
             </form>
-        {% endif %}
-
-        {% if puede_entregar %}
-            <form method="POST" action="{% url 'entregar_pedido' pedido.id_pedido %}">
-                {% csrf_token %}
-                <button type="submit">Marcar como Entregado</button>
-            </form>
-        {% endif %}
-
-        {% if pedido.estado == 'asignado_mesero' %}
-            <form method="POST" action="{% url 'enviar_pedido_cocina' pedido.id_pedido %}">
-                {% csrf_token %}
-                <button type="submit">Enviar a Cocina</button>
-            </form>
-        {% endif %}
-
-        
-        <form method="GET" action="{% url 'ver_pedidos_mesero' %}">
-            {% csrf_token %}
-            <button type="submit">Volver a Pedidos</button>
-        </form>
+        </div>
     </div>
 </body>
 </html>

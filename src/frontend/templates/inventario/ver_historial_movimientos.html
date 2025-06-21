@@ -1,9 +1,12 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Historial de Movimientos</title>
+    <link rel="stylesheet" href="{% static 'inventario/verHistorialMovimiento.css' %}">
 </head>
 <body>
     <h1>Historial de Movimientos de Inventario</h1>
@@ -17,7 +20,7 @@
     {% endif %}
 
     {% if movimientos %}
-        <table border="1">
+        <table>
             <thead>
                 <tr>
                     <th>Producto</th>
@@ -36,7 +39,7 @@
                         <td>{{ movimiento.id_unidad.nombre_unidad }}</td>
                         <td>{{ movimiento.tipo }}</td>
                         <td>{{ movimiento.id_empleado.nombre }} {{ movimiento.id_empleado.apellido }}</td>
-                        <td>{{ movimiento.fecha_hora }}</td>
+                        <td>{{ movimiento.fecha_hora|date:"d/m/Y H:i" }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

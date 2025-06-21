@@ -1,69 +1,77 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Crear Producto</title>
+    <link rel="stylesheet" href="{% static 'admin/crearProducto.css' %}">
 </head>
 <body>
-    <h1>Crear Nuevo Producto de Inventario</h1>
+    <div class="container">
+        <h1>Crear Nuevo Producto de Inventario</h1>
 
-    {% if messages %}
-        <div>
-            {% for message in messages %}
-                <p><strong>{{ message }}</strong></p>
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    <form method="POST">
-        {% csrf_token %}
-        
-        <div>
-            <label for="nombre">Nombre del producto:</label>
-            <input type="text" id="nombre" name="nombre" required>
-        </div>
-
-        <div>
-            <label for="unidad_medida">Unidad de medida:</label>
-            <select id="unidad_medida" name="unidad_medida" required>
-                <option value="" disabled selected>Seleccione una unidad</option>
-                {% for unidad in unidades %}
-                    <option value="{{ unidad.id_unidad }}">{{ unidad.nombre }}</option>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message-error">{{ message }}</div>
                 {% endfor %}
-            </select>
-        </div>
+            </div>
+        {% endif %}
 
-        <div>
-            <label for="proveedor_id">Proveedor (opcional):</label>
-            <select id="proveedor_id" name="proveedor_id">
-                <option value="" selected>-- Sin proveedor --</option>
-                {% for proveedor in proveedores %}
-                    <option value="{{ proveedor.id_proveedor }}">{{ proveedor.nombre }}</option>
-                {% endfor %}
-            </select>
-        </div>
+        <form method="POST" class="form-producto">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="nombre">Nombre del producto:</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
 
-        <div>
-            <label for="stock_actual">Stock Actual:</label>
-            <input type="number" id="stock_actual" name="stock_actual" step="0.01" min="0" required>
-        </div>
+            <div class="form-group">
+                <label for="unidad_medida">Unidad de medida:</label>
+                <select id="unidad_medida" name="unidad_medida" required>
+                    <option value="" disabled selected>Seleccione una unidad</option>
+                    {% for unidad in unidades %}
+                        <option value="{{ unidad.id_unidad }}">{{ unidad.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <div>
-            <label for="stock_minimo">Stock Mínimo:</label>
-            <input type="number" id="stock_minimo" name="stock_minimo" step="0.01" min="0">
-        </div>
+            <div class="form-group">
+                <label for="proveedor_id">Proveedor (opcional):</label>
+                <select id="proveedor_id" name="proveedor_id">
+                    <option value="" selected>-- Sin proveedor --</option>
+                    {% for proveedor in proveedores %}
+                        <option value="{{ proveedor.id_proveedor }}">{{ proveedor.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <div>
-            <label for="stock_maximo">Stock Máximo:</label>
-            <input type="number" id="stock_maximo" name="stock_maximo" step="0.01" min="0">
-        </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="stock_actual">Stock Actual:</label>
+                    <input type="number" id="stock_actual" name="stock_actual" step="0.01" min="0" required>
+                </div>
 
-        <button type="submit">Guardar Producto</button>
-    </form>
+                <div class="form-group">
+                    <label for="stock_minimo">Stock Mínimo:</label>
+                    <input type="number" id="stock_minimo" name="stock_minimo" step="0.01" min="0">
+                    <small class="hint">Dejar en 0 para omitir</small>
+                </div>
 
-    <br>
-    <a href="{% url 'ver_inventario' %}">← Volver al Inventario</a><br>
-    <a href="{% url 'inicio_administrador' %}">← Volver al Inicio del Administrador</a>
+                <div class="form-group">
+                    <label for="stock_maximo">Stock Máximo:</label>
+                    <input type="number" id="stock_maximo" name="stock_maximo" step="0.01" min="0">
+                    <small class="hint">Dejar en 0 para omitir</small>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Guardar Producto</button>
+                <a href="{% url 'ver_inventario' %}" class="btn btn-secondary">← Volver al Inventario</a>
+                <a href="{% url 'inicio_administrador' %}" class="btn btn-secondary">← Volver al Inicio</a>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

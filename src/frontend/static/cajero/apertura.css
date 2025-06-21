@@ -1,0 +1,140 @@
+
+body {
+    background-color: #fef9f4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #4e342e;
+    margin: 0;
+    padding: 40px;
+}
+
+.container {
+    max-width: 500px;
+    margin: auto;
+    background-color: #fffaf3;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 30px;
+    color: #5d4037;
+}
+
+.logout-form {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.messages {
+    background-color: #fff3cd;
+    padding: 12px;
+    border-left: 4px solid #ffc107;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    text-align: left;
+}
+
+.form-apertura {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+input[type="number"] {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background-color: #fff;
+}
+
+input[type="number"]:focus {
+    outline: none;
+    border-color: #a1887f;
+    background-color: #fefae0;
+}
+
+.btn {
+    background-color: #ffffff;
+    color: #4e342e;
+    border: 2px solid #bcaaa4;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 15px;
+}
+
+.btn:hover {
+    background-color: #f3e5f5;
+    transform: translateY(-1px);
+}
+
+.btn-logout {
+    font-size: 14px;
+    padding: 6px 14px;
+}
+
+.btn-abrir {
+    margin-top: 10px;
+}
+
+/* Add these styles to your existing CSS */
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logout-form {
+    display: inline-block;
+}
+
+.btn-logout {
+    background-color: #ffebee;
+    border-color: #ef9a9a;
+    color: #c62828;
+}
+
+.btn-logout:hover {
+    background-color: #ffcdd2;
+}
+
+/* Existing button styles for reference */
+.btn {
+    background-color: #ffffff;
+    color: #4e342e;
+    border: 2px solid #bcaaa4;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #efebe9;
+    transform: translateY(-2px);
+}
+
+.btn-cierre {
+    background-color: #a5d6a7;
+    border-color: #81c784;
+}

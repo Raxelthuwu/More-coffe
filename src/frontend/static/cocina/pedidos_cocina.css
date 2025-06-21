@@ -1,0 +1,84 @@
+/* Estilos para la interfaz de cocina - Estética consistente */
+body {
+    background-color: #fdfaf6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #4e342e;
+    margin: 0;
+    padding: 30px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #fff8f2;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.08);
+}
+
+h1 {
+    text-align: center;
+    color: #5d4037;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+th, td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #e0cfc2;
+}
+
+th {
+    background-color: #d7ccc8;
+    color: #3e2723;
+    font-weight: 600;
+}
+
+tr:hover {
+    background-color: #f3e5f5;
+}
+
+button, .btn {
+    background-color: #ffffff;
+    color: #4e342e;
+    border: 2px solid #bcaaa4;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 5px;
+}
+
+button:hover, .btn:hover {
+    background-color: #efebe9;
+    transform: translateY(-2px);
+}
+
+a {
+    color: #5d4037;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    background-color: #f3e5f5;
+}
+
+form {
+    display: inline;
+}

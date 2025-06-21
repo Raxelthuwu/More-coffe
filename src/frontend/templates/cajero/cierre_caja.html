@@ -1,51 +1,37 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cierre de Caja</title>
-    <style>
-        .boton-link {
-            display: inline-block;
-            padding: 0.5em 1em;
-            background-color: #007BFF;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            border: none;
-            font-size: 1em;
-            cursor: pointer;
-        }
-        .boton-link:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'cajero/cierre_caja.css' %}">
 </head>
 <body>
-    <div>
+    <div class="container">
         <h1>Cierre de Caja</h1>
 
         {% if messages %}
-        <div>
+        <div class="messages">
             {% for message in messages %}
                 <p><strong>{{ message }}</strong></p>
             {% endfor %}
         </div>
         {% endif %}
 
-        <form method="POST">
+        <form method="POST" class="form-cierre">
             {% csrf_token %}
-            <div>
+            <div class="form-group">
                 <label for="monto_final">Monto final:</label>
                 <input type="number" name="monto_final" id="monto_final" step="0.01" min="0" required>
             </div>
-            <button type="submit">Cerrar Caja y Cerrar Sesión</button>
+            <button type="submit" class="btn btn-cerrar">Cerrar Caja y Cerrar Sesión</button>
         </form>
 
-        <div style="margin-top: 1em;">
-            <a href="{% url 'ver_pedidos_cajero' %}" class="boton-link">
-                Volver a Pedidos
-            </a>
+        <div class="acciones">
+            <form action="{% url 'ver_pedidos_cajero' %}" method="get">
+                <button type="submit" class="btn btn-volver">Volver a Pedidos</button>
+            </form>
         </div>
     </div>
 </body>

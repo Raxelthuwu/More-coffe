@@ -1,0 +1,111 @@
+body {
+    background-color: #fef9f4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #4e342e;
+    margin: 0;
+    padding: 40px;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    background-color: #fffaf3;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #5d4037;
+    margin-bottom: 30px;
+}
+
+.messages {
+    background-color: #fff3cd;
+    padding: 12px;
+    border-left: 4px solid #ffc107;
+    margin-bottom: 20px;
+    border-radius: 6px;
+}
+
+.tabla-pedidos {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.tabla-pedidos th,
+.tabla-pedidos td {
+    padding: 14px 16px;
+    text-align: center;
+    border-bottom: 1px solid #e0cfc2;
+}
+
+.tabla-pedidos th {
+    background-color: #d7ccc8;
+    color: #3e2723;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.tabla-pedidos tr:hover {
+    background-color: #f3e5f5;
+}
+
+.btn {
+    background-color: #ffffff;
+    color: #4e342e;
+    border: 2px solid #bcaaa4;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 15px;
+}
+
+.btn:hover {
+    background-color: #f3e5f5;
+    transform: translateY(-1px);
+}
+
+.btn-logout {
+    background-color: #ffebee;
+    border-color: #ef9a9a;
+    color: #c62828;
+}
+
+.btn-logout:hover {
+    background-color: #ffcdd2;
+}
+
+.btn-cierre {
+    margin-top: 20px;
+    background-color: #efebe9;
+}
+
+.acciones {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.mensaje-vacio {
+    text-align: center;
+    font-style: italic;
+    margin-top: 20px;
+}
+
+.logout-form {
+    display: inline;
+}
